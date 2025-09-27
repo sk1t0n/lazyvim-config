@@ -10,12 +10,14 @@ make install
 make
 ```
 
-## Delete configuration along with backups
+## Delete configuration
 
 **Linux**:
 
 ```sh
-make remove_with_backups
+make delete
+# or delete configuration along with backups
+make delete DELETE_WITH_BACKUPS=true
 ```
 
 ## Install dependencies for selected languages
