@@ -2,6 +2,18 @@
 
 Scripts for installing LazyVim and generating lua files.
 
+<details>
+<summary>Table of Contents</summary>
+
+- [Install LazyVim and generate lua files](#install-lazyvim-and-generate-lua-files)
+- [Delete configuration](#delete-configuration)
+- [Install dependencies for selected languages](#install-dependencies-for-selected-languages)
+  - [Rust dependencies](#rust-dependencies)
+- [Replaced keymaps](#replaced-keymaps)
+  - [General](#general)
+
+</details>
+
 ## Install LazyVim and generate lua files
 
 **Linux**:
@@ -37,7 +49,9 @@ curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-
 cargo binstall cargo-nextest --secure
 ```
 
-## Replaced [keymaps](https://www.lazyvim.org/keymaps)
+## Replaced keymaps
+
+[LazyVim Keymaps](https://www.lazyvim.org/keymaps)
 
 ### General
 
