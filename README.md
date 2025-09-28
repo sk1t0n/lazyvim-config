@@ -1,5 +1,7 @@
 # lazyvim_config
 
+Scripts for installing LazyVim and generating lua files.
+
 ## Install LazyVim and generate lua files
 
 **Linux**:
