@@ -9,8 +9,9 @@ Scripts for installing LazyVim and generating lua files.
 - [Delete configuration](#delete-configuration)
 - [Install dependencies for selected languages](#install-dependencies-for-selected-languages)
   - [Rust dependencies](#rust-dependencies)
-- [Replaced keymaps](#replaced-keymaps)
+- [Keymaps](#keymaps)
   - [General](#general)
+  - [Neotest](#neotest)
 
 </details>
 
@@ -49,7 +50,7 @@ curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-
 cargo binstall cargo-nextest --secure
 ```
 
-## Replaced keymaps
+## Keymaps
 
 [LazyVim Keymaps](https://www.lazyvim.org/keymaps)
 
@@ -64,3 +65,18 @@ cargo binstall cargo-nextest --secure
 | 5 | Replace | `<C-/>`      | `<C-`>`      | Hide Terminal       | **t**       |
 | 6 | Replace | `<leader>-`  | `<leader>\|` | Split Window Below  | **n**       |
 | 7 | Replace | `<leader>\|` | `<leader>\`  | Split Window Right  | **n**       |
+
+### Neotest
+
+| Key          | Description                   | Mode  |
+|--------------|-------------------------------|-------|
+| `<leader>t`  | +test                         | **n** |
+| `<leader>tl` | Run Last (Neotest)            | **n** |
+| `<leader>to` | Show Output (Neotest)         | **n** |
+| `<leader>tO` | Toggle Output Panel (Neotest) | **n** |
+| `<leader>tr` | Run Nearest (Neotest)         | **n** |
+| `<leader>ts` | Toggle Summary (Neotest)      | **n** |
+| `<leader>tS` | Stop (Neotest)                | **n** |
+| `<leader>tt` | Run File (Neotest)            | **n** |
+| `<leader>tT` | Run All Test Files (Neotest)  | **n** |
+| `<leader>tw` | Toggle Watch (Neotest)        | **n** |
