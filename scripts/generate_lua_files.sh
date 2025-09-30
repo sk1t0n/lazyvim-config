@@ -13,16 +13,88 @@ if [[ "$need_rust" == "y" || "$need_rust" == "Y" ]]; then
       require("crates").setup()
     end,
   },'
-    rust_conform='
-    rust = { "rustfmt" },'
-    rust_neotest='
-    require("rustaceanvim.neotest")({
+    rust_conform='rust = { "rustfmt" },'
+    rust_neotest='require("rustaceanvim.neotest")({
       args = {},
     }),'
+    rust_treesitter='"rust",'
 else
     rust_plugins=""
     rust_conform=""
     rust_neotest=""
+    rust_treesitter=""
+fi
+
+read -p "Install Go plugins? (y/n): " need_go
+if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
+    go_plugins='
+  {
+    "fredrikaverpil/neotest-golang",
+    version = "*",
+    build = function()
+      vim.system({ "go", "install", "gotest.tools/gotestsum@latest" }):wait()
+    end,
+  },'
+    go_conform='go = { "gofmt", "goimports", "golines" },'
+    go_lsp='"gopls",
+  "golangci_lint_ls",'
+    go_inlay_hint="lspconfig.gopls.setup({
+  settings = {
+    gopls = {
+      hints = {
+        parameterNames = true,
+        functionTypeParameters = true,
+        assignVariableTypes = true,
+        compositeLiteralFields = true,
+        compositeLiteralTypes = true,
+        rangeVariableTypes = true,
+        constantValues = true,
+      },
+    },
+  },
+})"
+    go_neotest='require("neotest-golang")({
+      runner = "gotestsum",
+    }),'
+    go_treesitter='"go",
+  "gomod",
+  "gosum",
+  "gotmpl",
+  "gowork",'
+    treesitter_gotmpl_injections='((text) @injection.content
+ (#set! injection.language "html")
+ (#set! injection.combined))'
+    mkdir -p ~/.config/nvim/queries/gotmpl
+    echo "$treesitter_gotmpl_injections" > ~/.config/nvim/queries/gotmpl/injections.scm
+    go_lint='go = { "golangcilint" },'
+    go_snippets='{
+        "language": ["go"],
+        "path": "./go.json"
+      }'
+    go_snippets_file='{
+  "errneq": {
+    "prefix": "errneq",
+    "body": [
+      "if err != nil {\n    ${0:return err}\n}"
+    ],
+    "description": "err != nil"
+  },
+  "erreq": {
+    "prefix": "erreq",
+    "body": ["if err == nil {\n    $0\n}"],
+    "description": "err == nil"
+  }
+}'
+    echo "$go_snippets_file" > ~/.config/nvim/snippets/go.json
+else
+    go_plugins=""
+    go_conform=""
+    go_lsp=""
+    go_inlay_hint=""
+    go_neotest=""
+    go_treesitter=""
+    go_lint=""
+    go_snippets=""
 fi
 
 read -r -d '' plugins_init_file << 'EOM'
@@ -50,45 +122,94 @@ return {
       require("config.plugins.neotest")
     end,
   },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    branch = "master",
+    lazy = false,
+    build = ":TSUpdate",
+    config = function()
+      require("config.plugins.treesitter")
+    end,
+  },
+  {
+    "mfussenegger/nvim-lint",
+    config = function()
+      require("config.plugins.lint")
+    end,
+  },
 EOM
-plugins_init_file+="$rust_plugins
+plugins_init_file+="${rust_plugins}${go_plugins}
 }"
 echo "$plugins_init_file" > ~/.config/nvim/lua/plugins/init.lua
 
 mkdir -p ~/.config/nvim/lua/config/plugins
 
 config_conform_file="local options = {
-  formatters_by_ft = {$rust_conform
-  },
-
-  format_on_save = {
-    timeout_ms = 500,
-    lsp_format = \"fallback\",
+  formatters_by_ft = {
+    $rust_conform
+    $go_conform
   },
 }
 
 return options"
 echo "$config_conform_file" > ~/.config/nvim/lua/config/plugins/conform.lua
 
-config_lspconfig_file='local servers = {
+config_lspconfig_file="local servers = {
+  $go_lsp
 }
 
-local lspconfig = require "lspconfig"
+local lspconfig = require(\"lspconfig\")
 
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
+  lspconfig[lsp].setup({
     capabilities = vim.lsp.protocol.make_client_capabilities(),
-  }
+  })
 end
 
-vim.lsp.inlay_hint.enable(true)'
+vim.lsp.inlay_hint.enable(true)
+
+$go_inlay_hint"
+
 echo "$config_lspconfig_file" > ~/.config/nvim/lua/config/plugins/lspconfig.lua
 
 config_neotest_file="require(\"neotest\").setup({
-  adapters = {$rust_neotest
+  adapters = {
+    $rust_neotest
+    $go_neotest
   },
 })"
 echo "$config_neotest_file" > ~/.config/nvim/lua/config/plugins/neotest.lua
+
+config_treesitter_file="require(\"nvim-treesitter\").install({
+  $rust_treesitter
+  $go_treesitter
+})"
+echo "$config_treesitter_file" > ~/.config/nvim/lua/config/plugins/treesitter.lua
+
+config_lint_file="local lint = require(\"lint\")
+
+lint.linters_by_ft = {
+  $go_lint
+}
+
+vim.api.nvim_create_autocmd({ \"BufWritePost\" }, {
+  callback = function()
+    lint.try_lint()
+  end,
+})"
+echo "$config_lint_file" > ~/.config/nvim/lua/config/plugins/lint.lua
+
+mkdir -p ~/.config/nvim/snippets
+
+snippets_package_file="{
+  \"name\": \"snippets\",
+  \"contributes\": {
+    \"snippets\": [
+      $go_snippets
+    ]
+  }
+}"
+echo "$snippets_package_file" > ~/.config/nvim/snippets/package.json
 
 read -r -d '' keymaps_file << 'EOM'
 -- https://neovim.io/doc/user/map.html#%3Amap-verbose

@@ -50,6 +50,19 @@ curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-
 cargo binstall cargo-nextest --secure
 ```
 
+### Go dependencies
+
+You need to install: gopls, golangci-lint, golangci-lint-langserver, goimports, golines.
+
+```bash
+# install from source (alternative - install binary)
+go install golang.org/x/tools/gopls@latest
+go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
+go install github.com/nametake/golangci-lint-langserver@latest
+go install golang.org/x/tools/cmd/goimports@latest
+go install github.com/segmentio/golines@latest
+```
+
 ## Keymaps
 
 [LazyVim Keymaps](https://www.lazyvim.org/keymaps)
