@@ -5,6 +5,13 @@ if [[ "$need_rust" == "y" || "$need_rust" == "Y" ]]; then
     "mrcjkb/rustaceanvim",
     version = "^6",
     lazy = false,
+  },
+  {
+    "saecki/crates.nvim",
+    tag = "stable",
+    config = function()
+      require("crates").setup()
+    end,
   },'
     rust_conform='
     rust = { "rustfmt" },'
