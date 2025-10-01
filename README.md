@@ -12,7 +12,9 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
   - [Go dependencies](#go-dependencies)
 - [Keymaps](#keymaps)
   - [General](#general)
-  - [Neotest](#neotest)
+  - [neotest](#neotest)
+  - [nvim-dap](#nvim-dap)
+  - [nvim-dap-ui](#nvim-dap-ui)
 
 </details>
 
@@ -53,7 +55,7 @@ cargo binstall cargo-nextest --secure
 
 ### Go dependencies
 
-You need to install: gopls, golangci-lint, golangci-lint-langserver, goimports, golines.
+You need to install: gopls, golangci-lint, golangci-lint-langserver, goimports, golines, delve.
 
 ```bash
 # install from source (alternative - install binary)
@@ -62,6 +64,7 @@ go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
 go install github.com/nametake/golangci-lint-langserver@latest
 go install golang.org/x/tools/cmd/goimports@latest
 go install github.com/segmentio/golines@latest
+go install github.com/go-delve/delve/cmd/dlv@latest
 ```
 
 ## Keymaps
@@ -80,7 +83,7 @@ go install github.com/segmentio/golines@latest
 | 6 | Replace | `<leader>-`  | `<leader>\|` | Split Window Below  |    **n**    |
 | 7 | Replace | `<leader>\|` | `<leader>\`  | Split Window Right  |    **n**    |
 
-### Neotest
+### neotest
 
 |     Key      | Description                   | Mode  |
 |:------------:|-------------------------------|:-----:|
@@ -94,3 +97,32 @@ go install github.com/segmentio/golines@latest
 | `<leader>tt` | Run File (Neotest)            | **n** |
 | `<leader>tT` | Run All Test Files (Neotest)  | **n** |
 | `<leader>tw` | Toggle Watch (Neotest)        | **n** |
+
+### nvim-dap
+
+|     Key      | Description             | Mode  |
+|:------------:|-------------------------|:-----:|
+| `<leader>da` | Run with Args           | **n** |
+| `<leader>db` | Toggle Breakpoint       | **n** |
+| `<leader>dB` | Breakpoint Condition    | **n** |
+| `<leader>dc` | Run/Continue            | **n** |
+| `<leader>dC` | Run to Cursor           | **n** |
+| `<leader>dg` | Go to Line (No Execute) | **n** |
+| `<leader>di` | Step Into               | **n** |
+| `<leader>dj` | Down                    | **n** |
+| `<leader>dk` | Up                      | **n** |
+| `<leader>dl` | Run Last                | **n** |
+| `<leader>do` | Step Out                | **n** |
+| `<leader>dO` | Step Over               | **n** |
+| `<leader>dP` | Pause                   | **n** |
+| `<leader>dr` | Toggle REPL             | **n** |
+| `<leader>ds` | Session                 | **n** |
+| `<leader>dt` | Terminate               | **n** |
+| `<leader>dw` | Widgets                 | **n** |
+
+### nvim-dap-ui
+
+|     Key      | Description |     Mode     |
+|:------------:|-------------|:------------:|
+| `<leader>de` | Eval        | **n**, **v** |
+| `<leader>du` | Dap UI      |    **n**     |

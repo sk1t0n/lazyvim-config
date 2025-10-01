@@ -34,7 +34,8 @@ if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
     build = function()
       vim.system({ "go", "install", "gotest.tools/gotestsum@latest" }):wait()
     end,
-  },'
+  },
+  { "leoluz/nvim-dap-go" },'
     go_conform='go = { "gofmt", "goimports", "golines" },'
     go_lsp='"gopls",
   "golangci_lint_ls",'
@@ -86,6 +87,47 @@ if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
   }
 }'
     echo "$go_snippets_file" > ~/.config/nvim/snippets/go.json
+    go_dap_config='dap.configurations.go = {
+  {
+    type = "delve",
+    name = "Debug",
+    request = "launch",
+    program = "${file}",
+  },
+  {
+    type = "delve",
+    name = "Debug test",
+    request = "launch",
+    mode = "test",
+    program = "${file}",
+  },
+  {
+    type = "delve",
+    name = "Debug test (go.mod)",
+    request = "launch",
+    mode = "test",
+    program = "./${relativeFileDirname}",
+  },
+}'
+    go_dap_adapter='dap.adapters.delve = function(callback, config)
+  if config.mode == "remote" and config.request == "attach" then
+    callback({
+      type = "server",
+      host = config.host or "127.0.0.1",
+      port = config.port or "38697",
+    })
+  else
+    callback({
+      type = "server",
+      port = "${port}",
+      executable = {
+        command = "dlv",
+        args = { "dap", "-l", "127.0.0.1:${port}", "--log", "--log-output=dap" },
+        detached = vim.fn.has("win32") == 0,
+      }
+    })
+  end
+end'
 else
     go_plugins=""
     go_conform=""
@@ -95,6 +137,8 @@ else
     go_treesitter=""
     go_lint=""
     go_snippets=""
+    go_dap_config=""
+    go_dap_adapter=""
 fi
 
 read -r -d '' plugins_init_file << 'EOM'
@@ -135,6 +179,37 @@ return {
     "mfussenegger/nvim-lint",
     config = function()
       require("config.plugins.lint")
+    end,
+  },
+  {
+    "mfussenegger/nvim-dap",
+    config = function()
+      require("config.plugins.dap")
+    end,
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-neotest/nvim-nio",
+    },
+    config = function()
+      require("dapui").setup()
+
+      local dap, dapui = require("dap"), require("dapui")
+
+      dap.listeners.before.attach.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.launch.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated.dapui_config = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited.dapui_config = function()
+        dapui.close()
+      end
     end,
   },
 EOM
@@ -211,6 +286,21 @@ snippets_package_file="{
 }"
 echo "$snippets_package_file" > ~/.config/nvim/snippets/package.json
 
+read -r -d '' config_dap_file << 'EOM'
+local ok, dap = pcall(require, "dap")
+
+if not ok then
+  return
+end
+EOM
+config_dap_file+="
+
+${go_dap_config}
+
+"
+config_dap_file+="${go_dap_adapter}"
+echo "$config_dap_file" > ~/.config/nvim/lua/config/plugins/dap.lua
+
 read -r -d '' keymaps_file << 'EOM'
 -- https://neovim.io/doc/user/map.html#%3Amap-verbose
 -- listing a key map will also display where it was last defined
@@ -282,5 +372,64 @@ end, { desc = "Stop (Neotest)" })
 set("n", "<leader>tw", function()
   require("neotest").watch.toggle(vim.fn.expand("%"))
 end, { desc = "Toggle Watch (Neotest)" })
+
+-- DAP
+set("n", "<leader>dB", function()
+  require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+end, { desc = "Breakpoint Condition" })
+set("n", "<leader>db", function()
+  require("dap").toggle_breakpoint()
+end, { desc = "Toggle Breakpoint" })
+set("n", "<leader>dc", function()
+  require("dap").continue()
+end, { desc = "Run/Continue" })
+set("n", "<leader>da", function()
+  require("dap").continue({ before = get_args })
+end, { desc = "Run with Args" })
+set("n", "<leader>dC", function()
+  require("dap").run_to_cursor()
+end, { desc = "Run to Cursor" })
+set("n", "<leader>dg", function()
+  require("dap").goto_()
+end, { desc = "Go to Line (No Execute)" })
+set("n", "<leader>di", function()
+  require("dap").step_into()
+end, { desc = "Step Into" })
+set("n", "<leader>dj", function()
+  require("dap").down()
+end, { desc = "Down" })
+set("n", "<leader>dk", function()
+  require("dap").up()
+end, { desc = "Up" })
+set("n", "<leader>dl", function()
+  require("dap").run_last()
+end, { desc = "Run Last" })
+set("n", "<leader>do", function()
+  require("dap").step_out()
+end, { desc = "Step Out" })
+set("n", "<leader>dO", function()
+  require("dap").step_over()
+end, { desc = "Step Over" })
+set("n", "<leader>dP", function()
+  require("dap").pause()
+end, { desc = "Pause" })
+set("n", "<leader>dr", function()
+  require("dap").repl.toggle()
+end, { desc = "Toggle REPL" })
+set("n", "<leader>ds", function()
+  require("dap").session()
+end, { desc = "Session" })
+set("n", "<leader>dt", function()
+  require("dap").terminate()
+end, { desc = "Terminate" })
+set("n", "<leader>dw", function()
+  require("dap.ui.widgets").hover()
+end, { desc = "Widgets" })
+set("n", "<leader>du", function()
+  require("dapui").toggle({})
+end, { desc = "Dap UI" })
+set({ "n", "v" }, "<leader>de", function()
+  require("dapui").eval()
+end, { desc = "Eval" })
 EOM
 echo "$keymaps_file" > ~/.config/nvim/lua/config/keymaps.lua
