@@ -9,6 +9,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 - [Delete configuration](#delete-configuration)
 - [Install dependencies for selected languages](#install-dependencies-for-selected-languages)
   - [Rust dependencies](#rust-dependencies)
+  - [Go dependencies](#go-dependencies)
 - [Keymaps](#keymaps)
   - [General](#general)
   - [Neotest](#neotest)
@@ -69,20 +70,20 @@ go install github.com/segmentio/golines@latest
 
 ### General
 
-| № | Action  | Default Key  | Custom Key   | Description         | Mode        |
-|---|---------|--------------|--------------|---------------------|-------------|
-| 1 | Replace | `<A-j>`      | `<A-Down>`   | Move Down           | **n, i, v** |
-| 2 | Replace | `<A-k>`      | `<A-Up>`     | Move Up             | **n, i, v** |
-| 3 | Add     |              | `<C-/>`      | Toggle comment line | **n, v**    |
-| 4 | Replace | `<c-/>`      | `<C-`>`      | Terminal (Root Dir) | **n**       |
-| 5 | Replace | `<C-/>`      | `<C-`>`      | Hide Terminal       | **t**       |
-| 6 | Replace | `<leader>-`  | `<leader>\|` | Split Window Below  | **n**       |
-| 7 | Replace | `<leader>\|` | `<leader>\`  | Split Window Right  | **n**       |
+| № | Action  | Default Key  |  Custom Key  | Description         |    Mode     |
+|:-:|---------|:------------:|:------------:|---------------------|:-----------:|
+| 1 | Replace |   `<A-j>`    |  `<A-Down>`  | Move Down           | **n, i, v** |
+| 2 | Replace |   `<A-k>`    |   `<A-Up>`   | Move Up             | **n, i, v** |
+| 3 | Add     |              |   `<C-/>`    | Toggle comment line |  **n, v**   |
+| 4 | Replace |   `<c-/>`    |   `<C-`>`    | Terminal (Root Dir) |    **n**    |
+| 5 | Replace |   `<C-/>`    |   `<C-`>`    | Hide Terminal       |    **t**    |
+| 6 | Replace | `<leader>-`  | `<leader>\|` | Split Window Below  |    **n**    |
+| 7 | Replace | `<leader>\|` | `<leader>\`  | Split Window Right  |    **n**    |
 
 ### Neotest
 
-| Key          | Description                   | Mode  |
-|--------------|-------------------------------|-------|
+|     Key      | Description                   | Mode  |
+|:------------:|-------------------------------|:-----:|
 | `<leader>t`  | +test                         | **n** |
 | `<leader>tl` | Run Last (Neotest)            | **n** |
 | `<leader>to` | Show Output (Neotest)         | **n** |
