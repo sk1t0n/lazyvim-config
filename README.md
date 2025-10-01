@@ -15,6 +15,11 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
   - [neotest](#neotest)
   - [nvim-dap](#nvim-dap)
   - [nvim-dap-ui](#nvim-dap-ui)
+  - [windsurf.nvim](#windsurfnvim)
+  - [copilot.vim, CopilotChat.nvim](#copilotvim-copilotchatnvim)
+- [AI](#ai)
+  - [Windsurf](#windsurf)
+  - [Copilot](#copilot)
 
 </details>
 
@@ -126,3 +131,51 @@ go install github.com/go-delve/delve/cmd/dlv@latest
 |:------------:|-------------|:------------:|
 | `<leader>de` | Eval        | **n**, **v** |
 | `<leader>du` | Dap UI      |    **n**     |
+
+### windsurf.nvim
+
+|     Key      | Description                  | Mode  |
+|:------------:|------------------------------|:-----:|
+|   `<A-[>`    | Codeium previous suggestion  | **i** |
+|   `<A-]>`    | Codeium next suggestion      | **i** |
+|   `<Tab>`    | Codeium accept suggestion    | **i** |
+| `<leader>a`  | +ai                          | **n** |
+| `<leader>aa` | Open Codeium Chat in Browser | **n** |
+
+### copilot.vim, CopilotChat.nvim
+
+|     Key      | Description                  |     Mode     |
+|:------------:|------------------------------|:------------:|
+|   `<A-[>`    | Copilot previous suggestion  |    **i**     |
+|   `<A-]>`    | Copilot next suggestion      |    **i**     |
+|   `<Tab>`    | Copilot accept suggestion    |    **i**     |
+| `<leader>a`  | +ai                          | **n**, **v** |
+| `<leader>aa` | Toggle (CopilotChat)         | **n**, **v** |
+| `<leader>ap` | Prompt Actions (CopilotChat) | **n**, **v** |
+| `<leader>am` | Select Model (CopilotChat)   | **n**, **v** |
+| `<leader>aq` | Quick Chat (CopilotChat)     | **n**, **v** |
+| `<leader>ax` | Clear (CopilotChat)          | **n**, **v** |
+
+## AI
+
+Script for generating Lua files will prompt you to select an AI plugin. You can choose Codeium (Windsurf plugin) or GitHub Copilot.
+
+### Windsurf
+
+Setup:
+
+1. Open nvim
+2. Run the command `:Codeium Auth`
+3. Select the `Open Default Browser` option
+4. Copy the generated token
+5. Switch to nvim
+6. Paste the copied token
+
+### Copilot
+
+Setup:
+
+1. Open nvim
+2. Run the command `:Copilot setup`
+3. Authorize with GitHub
+4. Switch to nvim

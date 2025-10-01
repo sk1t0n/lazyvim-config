@@ -141,6 +141,35 @@ else
     go_dap_adapter=""
 fi
 
+read -p "Install AI plugin? (y/n): " need_ai
+if [[ "$need_ai" == "y" || "$need_ai" == "Y" ]]; then
+    read -p "Choose plugin (1 - Windsurf, 2 - Copilot): " ai_plugin_input
+    if [[ "$ai_plugin_input" == 1 ]]; then
+        ai_plugin='
+  {
+    "Exafunction/windsurf.nvim",
+    config = function()
+      require("codeium").setup({
+        enable_cmp_source = false,
+        virtual_text = {
+          enabled = true,
+        },
+      })
+    end,
+  },'
+    else
+        ai_plugin='
+  { "github/copilot.vim" },
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    dependencies = {
+      "gptlang/lua-tiktoken",
+    },
+    build = "make tiktoken",
+  },'
+    fi
+fi
+
 read -r -d '' plugins_init_file << 'EOM'
 return {
   {
@@ -213,7 +242,7 @@ return {
     end,
   },
 EOM
-plugins_init_file+="${rust_plugins}${go_plugins}
+plugins_init_file+="${ai_plugin}${rust_plugins}${go_plugins}
 }"
 echo "$plugins_init_file" > ~/.config/nvim/lua/plugins/init.lua
 
@@ -431,5 +460,33 @@ end, { desc = "Dap UI" })
 set({ "n", "v" }, "<leader>de", function()
   require("dapui").eval()
 end, { desc = "Eval" })
+
+-- AI
+if vim.fn.exists(":Codeium") > 0 then
+  set("n", "<leader>a", "", { desc = "+ai" })
+  set("n", "<leader>aa", "<cmd>Codeium Chat<cr>", { desc = "Open Codeium Chat in Browser" })
+end
+if vim.fn.exists(":CopilotChat") > 0 then
+  set({ "n", "v" }, "<leader>a", "", { desc = "+ai" })
+  set({ "n", "v" }, "<leader>aa", function()
+    return require("CopilotChat").toggle()
+  end, { desc = "Toggle (CopilotChat)" })
+  set({ "n", "v" }, "<leader>ax", function()
+    return require("CopilotChat").reset()
+  end, { desc = "Clear (CopilotChat)" })
+  set({ "n", "v" }, "<leader>aq", function()
+    vim.ui.input({
+      prompt = "Quick Chat: ",
+    }, function(input)
+      if input ~= "" then
+        require("CopilotChat").ask(input)
+      end
+    end)
+  end, { desc = "Quick Chat (CopilotChat)" })
+  set({ "n", "v" }, "<leader>ap", function()
+    require("CopilotChat").select_prompt()
+  end, { desc = "Prompt Actions (CopilotChat)" })
+  set({ "n", "v" }, "<leader>am", "<cmd>CopilotChatModels<cr>", { desc = "Select Model (CopilotChat)" })
+end
 EOM
 echo "$keymaps_file" > ~/.config/nvim/lua/config/keymaps.lua
