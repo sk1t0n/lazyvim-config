@@ -7,6 +7,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 
 - [Install LazyVim and generate lua files](#install-lazyvim-and-generate-lua-files)
 - [Delete configuration](#delete-configuration)
+- [Regenerate lua files if needed](#regenerate-lua-files-if-needed)
 - [Install dependencies for selected languages](#install-dependencies-for-selected-languages)
   - [Rust dependencies](#rust-dependencies)
   - [Go dependencies](#go-dependencies)
@@ -41,6 +42,14 @@ make
 make delete
 # or delete configuration along with backups
 make delete DELETE_WITH_BACKUPS=true
+```
+
+## Regenerate lua files if needed
+
+**Linux**:
+
+```bash
+make generate
 ```
 
 ## Install dependencies for selected languages
