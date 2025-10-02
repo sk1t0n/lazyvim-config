@@ -1,4 +1,4 @@
-read -p "Install Rust plugins? (y/n): " need_rust
+read -p "Install Rust plugins? (y/n, default: n): " -i "n" -e need_rust
 if [[ "$need_rust" == "y" || "$need_rust" == "Y" ]]; then
     rust_plugins='
   {
@@ -25,7 +25,7 @@ else
     rust_treesitter=""
 fi
 
-read -p "Install Go plugins? (y/n): " need_go
+read -p "Install Go plugins? (y/n, default: n): " -i "n" -e need_go
 if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
     go_plugins='
   {
@@ -141,9 +141,9 @@ else
     go_dap_adapter=""
 fi
 
-read -p "Install AI plugin? (y/n): " need_ai
+read -p "Install AI plugin? (y/n, default: n): " -i "n" -e need_ai
 if [[ "$need_ai" == "y" || "$need_ai" == "Y" ]]; then
-    read -p "Choose plugin (1 - Windsurf, 2 - Copilot): " ai_plugin_input
+    read -p "Choose plugin (1 - Windsurf, 2 - Copilot, default: 2): " -i "2" -e ai_plugin_input
     if [[ "$ai_plugin_input" == 1 ]]; then
         ai_plugin='
   {
@@ -168,6 +168,8 @@ if [[ "$need_ai" == "y" || "$need_ai" == "Y" ]]; then
     build = "make tiktoken",
   },'
     fi
+else
+    ai_plugin=""
 fi
 
 read -r -d '' plugins_init_file << 'EOM'
@@ -248,14 +250,12 @@ echo "$plugins_init_file" > ~/.config/nvim/lua/plugins/init.lua
 
 mkdir -p ~/.config/nvim/lua/config/plugins
 
-config_conform_file="local options = {
+config_conform_file="return {
   formatters_by_ft = {
     $rust_conform
     $go_conform
   },
-}
-
-return options"
+}"
 echo "$config_conform_file" > ~/.config/nvim/lua/config/plugins/conform.lua
 
 config_lspconfig_file="local servers = {
@@ -273,7 +273,6 @@ end
 vim.lsp.inlay_hint.enable(true)
 
 $go_inlay_hint"
-
 echo "$config_lspconfig_file" > ~/.config/nvim/lua/config/plugins/lspconfig.lua
 
 config_neotest_file="require(\"neotest\").setup({
@@ -304,7 +303,6 @@ vim.api.nvim_create_autocmd({ \"BufWritePost\" }, {
 echo "$config_lint_file" > ~/.config/nvim/lua/config/plugins/lint.lua
 
 mkdir -p ~/.config/nvim/snippets
-
 snippets_package_file="{
   \"name\": \"snippets\",
   \"contributes\": {
