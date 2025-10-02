@@ -124,7 +124,7 @@ if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
         command = "dlv",
         args = { "dap", "-l", "127.0.0.1:${port}", "--log", "--log-output=dap" },
         detached = vim.fn.has("win32") == 0,
-      }
+      },
     })
   end
 end'

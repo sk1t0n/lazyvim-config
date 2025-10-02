@@ -12,6 +12,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 <details>
 <summary>Table of Contents</summary>
 
+- [Requirements](#requirements)
 - [Install LazyVim and generate lua files](#install-lazyvim-and-generate-lua-files)
 - [Delete configuration](#delete-configuration)
 - [Regenerate lua files if needed](#regenerate-lua-files-if-needed)
@@ -30,6 +31,11 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
   - [Copilot](#copilot)
 
 </details>
+
+## Requirements
+
+- [Neovim](https://github.com/neovim/neovim/blob/master/INSTALL.md)
+- [Nerd Fonts](https://www.nerdfonts.com/font-downloads) - for to support icons in fonts (example configuration file for [WezTerm](https://github.com/sk1t0n/dotfiles/blob/master/home/anton/.wezterm.lua#L13))
 
 ## Install LazyVim and generate lua files
 
