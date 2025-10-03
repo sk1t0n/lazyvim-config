@@ -243,6 +243,7 @@ return {
       end
     end,
   },
+  { "aznhe21/actions-preview.nvim" },
 EOM
 plugins_init_file+="${ai_plugin}${rust_plugins}${go_plugins}
 }"
@@ -364,11 +365,25 @@ end, { desc = "Terminal (Root Dir)" })
 
 -- Terminal Mappings
 set("t", "<C-`>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+set("t", "<C-x>", "<C-\\><C-n>", { desc = "Escape terminal mode", remap = true })
 
 -- windows
 del("n", "<leader>-")
 set("n", "<leader>|", "<C-W>s", { desc = "Split Window Below", remap = true })
 set("n", "<leader>\\", "<C-W>v", { desc = "Split Window Right", remap = true })
+
+-- LSP
+set("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
+set("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature Help" })
+set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
+set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation" })
+set({ "n", "v" }, "<leader>ca", require("actions-preview").code_actions, { desc = "Code Action" })
+set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
+
+-- bufferline.nvim
+set("n", "<S-Tab>", "<S-h>", { desc = "Prev Buffer", remap = true })
+set("n", "<Tab>", "<S-l>", { desc = "Next Buffer", remap = true })
 
 -- Neotest
 set("n", "<leader>t", "", { desc = "+test" })

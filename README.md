@@ -21,6 +21,8 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
   - [Go dependencies](#go-dependencies)
 - [Keymaps](#keymaps)
   - [General](#general)
+  - [LSP](#lsp)
+  - [bufferline.nvim](#bufferlinenvim)
   - [neotest](#neotest)
   - [nvim-dap](#nvim-dap)
   - [nvim-dap-ui](#nvim-dap-ui)
@@ -100,15 +102,36 @@ go install github.com/go-delve/delve/cmd/dlv@latest
 
 ### General
 
-| № | Action  | Default Key  |  Custom Key  | Description         |    Mode     |
-|:-:|---------|:------------:|:------------:|---------------------|:-----------:|
-| 1 | Replace |   `<A-j>`    |  `<A-Down>`  | Move Down           | **n, i, v** |
-| 2 | Replace |   `<A-k>`    |   `<A-Up>`   | Move Up             | **n, i, v** |
-| 3 | Add     |              |   `<C-/>`    | Toggle comment line |  **n, v**   |
-| 4 | Replace |   `<c-/>`    |   `<C-`>`    | Terminal (Root Dir) |    **n**    |
-| 5 | Replace |   `<C-/>`    |   `<C-`>`    | Hide Terminal       |    **t**    |
-| 6 | Replace | `<leader>-`  | `<leader>\|` | Split Window Below  |    **n**    |
-| 7 | Replace | `<leader>\|` | `<leader>\`  | Split Window Right  |    **n**    |
+| № | Action  | Default Key  |  Custom Key  | Description          |    Mode     |
+|:-:|---------|:------------:|:------------:|----------------------|:-----------:|
+| 1 | Replace |   `<A-j>`    |  `<A-Down>`  | Move Down            | **n, i, v** |
+| 2 | Replace |   `<A-k>`    |   `<A-Up>`   | Move Up              | **n, i, v** |
+| 3 | Add     |              |   `<C-/>`    | Toggle comment line  |  **n, v**   |
+| 4 | Replace |   `<C-/>`    |   `<C-`>`    | Terminal (Root Dir)  |    **n**    |
+| 5 | Replace |   `<C-/>`    |   `<C-`>`    | Hide Terminal        |    **t**    |
+| 6 | Add     |              |   `<C-x>`    | Escape terminal mode |    **t**    |
+| 7 | Replace | `<leader>-`  | `<leader>\|` | Split Window Below   |    **n**    |
+| 8 | Replace | `<leader>\|` | `<leader>\`  | Split Window Right   |    **n**    |
+
+### LSP
+
+|     Key      | Description         |     Mode     |
+|:------------:|---------------------|:------------:|
+|      K       | Hover               |    **n**     |
+|      gK      | Signature Help      |    **n**     |
+|      gD      | Goto Declaration    |    **n**     |
+|      gd      | Goto Definition     |    **n**     |
+|      gi      | Goto Implementation |    **n**     |
+| `<leader>ca` | Code Action         | **n**, **v** |
+| `<leader>cd` | Line Diagnostics    |    **n**     |
+| `<leader>cr` | Rename              |    **n**     |
+
+### bufferline.nvim
+
+|    Key    | Description | Mode  |
+|:---------:|-------------|:-----:|
+| `<S-Tab>` | Prev Buffer | **n** |
+|  `<Tab>`  | Next Buffer | **n** |
 
 ### neotest
 
