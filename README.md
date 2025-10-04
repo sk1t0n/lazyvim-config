@@ -4,7 +4,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 
 **Plugins that can install and setup**:
 
-1. General: [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig), [conform.nvim](https://github.com/stevearc/conform.nvim), [neotest](https://github.com/nvim-neotest/neotest), [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter), [nvim-lint](https://github.com/mfussenegger/nvim-lint), [nvim-dap](https://github.com/mfussenegger/nvim-dap), [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui), [actions-preview.nvim](https://github.com/aznhe21/actions-preview.nvim)
+1. General: [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig), [conform.nvim](https://github.com/stevearc/conform.nvim), [neotest](https://github.com/nvim-neotest/neotest), [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter), [nvim-lint](https://github.com/mfussenegger/nvim-lint), [nvim-dap](https://github.com/mfussenegger/nvim-dap), [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui), [actions-preview.nvim](https://github.com/aznhe21/actions-preview.nvim), [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim), [treesj](https://github.com/Wansmer/treesj), [garbage-day.nvim](https://github.com/Zeioth/garbage-day.nvim)
 2. AI: [windsurf.nvim](https://github.com/Exafunction/windsurf.nvim) or [copilot.vim](https://github.com/github/copilot.vim) + [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim)
 3. Rust: [rustaceanvim](https://github.com/mrcjkb/rustaceanvim), [crates.nvim](https://github.com/saecki/crates.nvim)
 4. Go: [neotest-golang](https://github.com/fredrikaverpil/neotest-golang), [nvim-dap-go](https://github.com/leoluz/nvim-dap-go)
@@ -22,6 +22,8 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 - [Keymaps](#keymaps)
   - [General](#general)
   - [LSP](#lsp)
+  - [refactoring.nvim](#refactoringnvim)
+  - [treesj](#treesj)
   - [bufferline.nvim](#bufferlinenvim)
   - [neotest](#neotest)
   - [nvim-dap](#nvim-dap)
@@ -125,6 +127,18 @@ go install github.com/go-delve/delve/cmd/dlv@latest
 | `<leader>ca` | Code Action         | **n**, **v** |
 | `<leader>cd` | Line Diagnostics    |    **n**     |
 | `<leader>cr` | Rename              |    **n**     |
+
+### refactoring.nvim
+
+|     Key      | Description     |     Mode     |
+|:------------:|-----------------|:------------:|
+| `<leader>cR` | Select Refactor | **n**, **v** |
+
+### treesj
+
+|     Key      | Description                      | Mode  |
+|:------------:|----------------------------------|:-----:|
+| `<leader>cb` | Splitting/joining blocks of code | **n** |
 
 ### bufferline.nvim
 

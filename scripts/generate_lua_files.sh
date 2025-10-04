@@ -244,6 +244,30 @@ return {
     end,
   },
   { "aznhe21/actions-preview.nvim" },
+  {
+    "ThePrimeagen/refactoring.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    lazy = false,
+  },
+  {
+    "Wansmer/treesj",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("treesj").setup()
+    end,
+  },
+  {
+    "zeioth/garbage-day.nvim",
+    dependencies = "neovim/nvim-lspconfig",
+    event = "VeryLazy",
+    opts = {
+      aggressive_mode = false,
+      grace_period = 60 * 15,
+    },
+  },
 EOM
 plugins_init_file+="${ai_plugin}${rust_plugins}${go_plugins}
 }"
@@ -473,6 +497,12 @@ end, { desc = "Dap UI" })
 set({ "n", "v" }, "<leader>de", function()
   require("dapui").eval()
 end, { desc = "Eval" })
+
+-- Refactoring
+set({ "n", "v" }, "<leader>cR", require("refactoring").select_refactor, { desc = "Select Refactor" })
+
+-- Splitting/joining blocks of code
+set("n", "<leader>cb", "<cmd>TSJToggle<CR>", { desc = "Splitting/joining blocks of code" })
 
 -- AI
 if vim.fn.exists(":Codeium") > 0 then
