@@ -267,6 +267,43 @@ return {
       aggressive_mode = false,
       grace_period = 60 * 15,
     },
+    {
+      "m4xshen/smartcolumn.nvim",
+      config = function()
+        require("smartcolumn").setup({
+          colorcolumn = { "80" },
+        })
+      end,
+    },
+    {
+      "nvim-focus/focus.nvim",
+      version = "*",
+      config = function()
+        require("focus").setup()
+      end,
+    },
+    {
+      "max397574/better-escape.nvim",
+      config = function()
+        require("better_escape").setup()
+      end,
+    },
+    {
+      "folke/zen-mode.nvim",
+      opts = {
+        window = {
+          width = 0.75,
+        },
+      },
+    },
+    {
+      "nvzone/timerly",
+      dependencies = "nvzone/volt",
+      cmd = "TimerlyToggle",
+      config = {
+        position = "top-right",
+      },
+    },
   },
 EOM
 plugins_init_file+="${ai_plugin}${rust_plugins}${go_plugins}
@@ -502,7 +539,13 @@ end, { desc = "Eval" })
 set({ "n", "v" }, "<leader>cR", require("refactoring").select_refactor, { desc = "Select Refactor" })
 
 -- Splitting/joining blocks of code
-set("n", "<leader>cb", "<cmd>TSJToggle<CR>", { desc = "Splitting/joining blocks of code" })
+set("n", "<leader>cb", "<cmd>TSJToggle<cr>", { desc = "Splitting/joining blocks of code" })
+
+-- Zen Mode
+set("n", "<leader>uz", "<cmd>ZenMode<cr>", { desc = "Zen Mode" })
+
+-- Timerly
+set("n", "<leader>T", "<cmd>TimerlyToggle<cr>", { desc = "Toggle Timer" })
 
 -- AI
 if vim.fn.exists(":Codeium") > 0 then
