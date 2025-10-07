@@ -74,12 +74,11 @@ make generate
 
 ### Rust dependencies
 
-You need to install: rust-analyzer, rustfmt, cargo-nextest.
+You need to install: rustfmt, cargo-nextest.
 
 **Linux**:
 
 ```bash
-rustup component add rust-analyzer
 rustup component add rustfmt
 curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
 cargo binstall cargo-nextest --secure
@@ -87,13 +86,12 @@ cargo binstall cargo-nextest --secure
 
 ### Go dependencies
 
-You need to install: gopls, golangci-lint, golangci-lint-langserver, goimports, golines, delve.
+You need to install: gopls, golangci-lint, goimports, golines, delve.
 
 ```bash
 # install from source (alternative - install binary)
 go install golang.org/x/tools/gopls@latest
 go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
-go install github.com/nametake/golangci-lint-langserver@latest
 go install golang.org/x/tools/cmd/goimports@latest
 go install github.com/segmentio/golines@latest
 go install github.com/go-delve/delve/cmd/dlv@latest

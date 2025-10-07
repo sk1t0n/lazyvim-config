@@ -1,3 +1,74 @@
+read -p "Install plugins for Frontend? (y/n, default: y): " -i "y" -e need_frontend
+if [[ "$need_frontend" == "y" || "$need_frontend" == "Y" ]]; then
+    frontend_plugins='
+  {
+    "microsoft/vscode-js-debug",
+    build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+  },
+  {
+    "mxsdev/nvim-dap-vscode-js",
+    opts = {
+      debugger_path = vim.fn.stdpath "data" .. "/lazy/vscode-js-debug",
+      adapters = { "pwa-node", "pwa-chrome" },
+    },
+  },
+  { "nvim-neotest/neotest-jest" },
+  {
+    "brenoprata10/nvim-highlight-colors",
+    config = function()
+      require("nvim-highlight-colors").setup({})
+    end,
+  },'
+    frontend_conform='javascript = { "biome" },
+    typescript = { "biome" },
+    json = { "biome" },'
+    frontend_lsp=(
+        '"html",'
+        '"emmet_ls",'
+        '"cssls",'
+        '"css_variables",'
+        '"cssmodules_ls",'
+        '"tailwindcss",'
+        '"jsonls",'
+        '"biome",'
+        '"ts_ls",'
+    )
+    frontend_treesitter='"html",
+  "css",
+  "json",
+  "jsdoc",
+  "javascript",
+  "typescript",
+  "tsx",'
+    js_neotest='require("neotest-jest")({
+      jestCommand = "npm test",
+      jestConfigFile = function()
+        local f = io.open("jest.config.ts", "r")
+        if f then
+          io.close(f)
+          return "jest.config.ts"
+        else
+          return "jest.config.js"
+        end
+      end,
+      env = { CI = true },
+      cwd = function()
+        return vim.fn.getcwd()
+      end,
+    }),'
+    js_lint='javascript = { "biomejs" },
+  typescript = { "biomejs" },
+  javascriptreact = { "biomejs" },
+  typescriptreact = { "biomejs" },'
+else
+    frontend_plugins=""
+    frontend_conform=""
+    frontend_lsp=()
+    frontend_treesitter=""
+    js_neotest=""
+    js_lint=""
+fi
+
 read -p "Install Rust plugins? (y/n, default: n): " -i "n" -e need_rust
 if [[ "$need_rust" == "y" || "$need_rust" == "Y" ]]; then
     rust_plugins='
@@ -37,8 +108,9 @@ if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
   },
   { "leoluz/nvim-dap-go" },'
     go_conform='go = { "gofmt", "goimports", "golines" },'
-    go_lsp='"gopls",
-  "golangci_lint_ls",'
+    go_lsp=(
+        '"golangci_lint_ls",'
+    )
     go_inlay_hint="lspconfig.gopls.setup({
   settings = {
     gopls = {
@@ -131,7 +203,7 @@ end'
 else
     go_plugins=""
     go_conform=""
-    go_lsp=""
+    go_lsp=()
     go_inlay_hint=""
     go_neotest=""
     go_treesitter=""
@@ -172,8 +244,22 @@ else
     ai_plugin=""
 fi
 
+plugins_init_file_begin='return {
+  {
+    "mason-org/mason-lspconfig.nvim",
+    config = function()
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+'
+for lsp in "${frontend_lsp[@]}" "${go_lsp[@]}"; do
+    plugins_init_file_begin+="          $lsp"$'\n'
+done
+plugins_init_file_begin+='        },
+      })
+    end,
+  },
+  '
 read -r -d '' plugins_init_file << 'EOM'
-return {
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -267,93 +353,87 @@ return {
       aggressive_mode = false,
       grace_period = 60 * 15,
     },
-    {
-      "m4xshen/smartcolumn.nvim",
-      config = function()
-        require("smartcolumn").setup({
-          colorcolumn = { "80" },
-        })
-      end,
-    },
-    {
-      "nvim-focus/focus.nvim",
-      version = "*",
-      config = function()
-        require("focus").setup()
-      end,
-    },
-    {
-      "max397574/better-escape.nvim",
-      config = function()
-        require("better_escape").setup()
-      end,
-    },
-    {
-      "folke/zen-mode.nvim",
-      opts = {
-        window = {
-          width = 0.75,
-        },
-      },
-    },
-    {
-      "nvzone/timerly",
-      dependencies = "nvzone/volt",
-      cmd = "TimerlyToggle",
-      config = {
-        position = "top-right",
+  },
+  {
+    "m4xshen/smartcolumn.nvim",
+    config = function()
+      require("smartcolumn").setup({
+        colorcolumn = { "80" },
+      })
+    end,
+  },
+  {
+    "nvim-focus/focus.nvim",
+    version = "*",
+    config = function()
+      require("focus").setup()
+    end,
+  },
+  {
+    "max397574/better-escape.nvim",
+    config = function()
+      require("better_escape").setup()
+    end,
+  },
+  {
+    "folke/zen-mode.nvim",
+    opts = {
+      window = {
+        width = 0.75,
       },
     },
   },
+  {
+    "nvzone/timerly",
+    dependencies = "nvzone/volt",
+    cmd = "TimerlyToggle",
+    config = {
+      position = "top-right",
+    },
+  },
 EOM
-plugins_init_file+="${ai_plugin}${rust_plugins}${go_plugins}
+plugins_init_file+="${frontend_plugins}${rust_plugins}${go_plugins}${ai_plugin}
 }"
-echo "$plugins_init_file" > ~/.config/nvim/lua/plugins/init.lua
+echo "${plugins_init_file_begin}${plugins_init_file}" > ~/.config/nvim/lua/plugins/init.lua
 
 mkdir -p ~/.config/nvim/lua/config/plugins
 
 config_conform_file="return {
   formatters_by_ft = {
+    $frontend_conform
     $rust_conform
     $go_conform
   },
 }"
 echo "$config_conform_file" > ~/.config/nvim/lua/config/plugins/conform.lua
 
-config_lspconfig_file="local servers = {
-  $go_lsp
-}
-
-local lspconfig = require(\"lspconfig\")
-
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup({
-    capabilities = vim.lsp.protocol.make_client_capabilities(),
-  })
-end
+config_lspconfig_file="local lspconfig = require(\"lspconfig\")
 
 vim.lsp.inlay_hint.enable(true)
 
 $go_inlay_hint"
 echo "$config_lspconfig_file" > ~/.config/nvim/lua/config/plugins/lspconfig.lua
 
+config_treesitter_file="require(\"nvim-treesitter\").install({
+  $frontend_treesitter
+  $rust_treesitter
+  $go_treesitter
+})"
+echo "$config_treesitter_file" > ~/.config/nvim/lua/config/plugins/treesitter.lua
+
 config_neotest_file="require(\"neotest\").setup({
   adapters = {
+    $js_neotest
     $rust_neotest
     $go_neotest
   },
 })"
 echo "$config_neotest_file" > ~/.config/nvim/lua/config/plugins/neotest.lua
 
-config_treesitter_file="require(\"nvim-treesitter\").install({
-  $rust_treesitter
-  $go_treesitter
-})"
-echo "$config_treesitter_file" > ~/.config/nvim/lua/config/plugins/treesitter.lua
-
 config_lint_file="local lint = require(\"lint\")
 
 lint.linters_by_ft = {
+  $js_lint
   $go_lint
 }
 
@@ -384,10 +464,8 @@ end
 EOM
 config_dap_file+="
 
-${go_dap_config}
-
-"
-config_dap_file+="${go_dap_adapter}"
+$go_dap_config
+$go_dap_adapter"
 echo "$config_dap_file" > ~/.config/nvim/lua/config/plugins/dap.lua
 
 read -r -d '' keymaps_file << 'EOM'
