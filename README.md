@@ -74,11 +74,13 @@ make generate
 
 ### Rust dependencies
 
-You need to install: cargo-nextest.
+You need to install: rust-analyzer, rustfmt, cargo-nextest.
 
 **Linux**:
 
 ```bash
+rustup component add rust-analyzer
+rustup component add rustfmt
 curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
 cargo binstall cargo-nextest --secure
 ```
