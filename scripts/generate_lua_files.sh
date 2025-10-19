@@ -1,17 +1,7 @@
 read -p "Install plugins for Frontend? (y/n, default: y): " -i "y" -e need_frontend
 if [[ "$need_frontend" == "y" || "$need_frontend" == "Y" ]]; then
     frontend_plugins='
-  {
-    "microsoft/vscode-js-debug",
-    build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
-  },
-  {
-    "mxsdev/nvim-dap-vscode-js",
-    opts = {
-      debugger_path = vim.fn.stdpath "data" .. "/lazy/vscode-js-debug",
-      adapters = { "pwa-node", "pwa-chrome" },
-    },
-  },
+  { "microsoft/vscode-js-debug" },
   { "nvim-neotest/neotest-jest" },
   {
     "brenoprata10/nvim-highlight-colors",
@@ -40,6 +30,71 @@ if [[ "$need_frontend" == "y" || "$need_frontend" == "Y" ]]; then
   "javascript",
   "typescript",
   "tsx",'
+    frontend_dap='local frontend_filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" }
+for _, language in ipairs(frontend_filetypes) do
+  dap.configurations[language] = {
+    {
+      type = "pwa-node",
+      request = "launch",
+      name = "Launch file in new node process",
+      program = "${file}",
+      cwd = "${workspaceFolder}",
+    },
+    {
+      type = "pwa-node",
+      request = "attach",
+      name = "Attach debugger to existing `npm --node-options --inspect-brk run dev` process",
+      processId = require("dap.utils").pick_process,
+      sourceMaps = true,
+      resolveSourceMapLocations = { "${workspaceFolder}/**", "!**/node_modules/**" },
+      cwd = "${workspaceFolder}", -- for Vite "${workspaceFolder}/src"
+      skipFiles = { "${workspaceFolder}/node_modules/**/*.js" },
+    },
+    {
+      type = "pwa-node",
+      request = "launch",
+      name = "Debug Jest Tests",
+      runtimeExecutable = "node",
+      runtimeArgs = {
+        "./node_modules/jest/bin/jest.js",
+        "--runInBand",
+      },
+      rootPath = "${workspaceFolder}",
+      cwd = "${workspaceFolder}",
+      console = "integratedTerminal",
+      internalConsoleOptions = "neverOpen",
+    },
+    {
+      type = "pwa-chrome",
+      request = "launch",
+      name = "Launch Chrome to debug client side code",
+      url = "http://localhost:5173", -- default vite dev server url
+      sourceMaps = true,
+      webRoot = "${workspaceFolder}", -- for Vite "${workspaceFolder}/src"
+      protocol = "inspector",
+      port = 9222,
+      skipFiles = { "**/node_modules/**/*", "**/@vite/*", "**/src/client/*", "**/src/*", "**/.next/*" },
+    },
+  }
+end
+local frontend_adapters = { "pwa-node", "pwa-chrome" }
+local vscode = require("dap.ext.vscode")
+for _, adapter in ipairs(frontend_adapters) do
+  vscode.type_to_filetypes[adapter] = frontend_filetypes
+  dap.adapters[adapter] = {
+    type = "server",
+    host = "localhost",
+    port = "${port}",
+    executable = {
+      command = "node",
+      args = {'
+    frontend_dap+="
+        \"$HOME/.local/share/nvim/lazy/vscode-js-debug/dist/src/vsDebugServer.js\",
+        \"\${port}\",
+      },
+    },
+  }
+end"
     js_neotest='require("neotest-jest")({
       jestCommand = "npm test",
       jestConfigFile = function()
@@ -65,6 +120,7 @@ else
     frontend_conform=""
     frontend_lsp=()
     frontend_treesitter=""
+    frontend_dap=""
     js_neotest=""
     js_lint=""
 fi
@@ -159,7 +215,7 @@ if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
   }
 }'
     echo "$go_snippets_file" > ~/.config/nvim/snippets/go.json
-    go_dap_config='dap.configurations.go = {
+    go_dap='dap.configurations.go = {
   {
     type = "delve",
     name = "Debug",
@@ -180,8 +236,8 @@ if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
     mode = "test",
     program = "./${relativeFileDirname}",
   },
-}'
-    go_dap_adapter='dap.adapters.delve = function(callback, config)
+}
+dap.adapters.delve = function(callback, config)
   if config.mode == "remote" and config.request == "attach" then
     callback({
       type = "server",
@@ -209,8 +265,7 @@ else
     go_treesitter=""
     go_lint=""
     go_snippets=""
-    go_dap_config=""
-    go_dap_adapter=""
+    go_dap=""
 fi
 
 read -p "Install AI plugin? (y/n, default: n): " -i "n" -e need_ai
@@ -464,8 +519,9 @@ end
 EOM
 config_dap_file+="
 
-$go_dap_config
-$go_dap_adapter"
+$frontend_dap
+
+$go_dap"
 echo "$config_dap_file" > ~/.config/nvim/lua/config/plugins/dap.lua
 
 read -r -d '' keymaps_file << 'EOM'
