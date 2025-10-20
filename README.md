@@ -47,7 +47,10 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 ## Requirements
 
 - [Neovim](https://github.com/neovim/neovim/blob/master/INSTALL.md)
-- [Nerd Fonts](https://www.nerdfonts.com/font-downloads) - for to support icons in fonts (example configuration file for [WezTerm](https://github.com/sk1t0n/dotfiles/blob/master/home/anton/.wezterm.lua#L13))
+- [Git](https://git-scm.com/downloads)
+- [Nerd Font](https://www.nerdfonts.com/font-downloads) - for to support icons in fonts (example configuration file for [WezTerm](https://github.com/sk1t0n/dotfiles/blob/master/home/anton/.wezterm.lua#L13))
+- [bash](https://www.gnu.org/software/bash/)
+- [make](https://www.gnu.org/software/make/)
 
 ## Install LazyVim and generate lua files
 
@@ -79,7 +82,11 @@ make generate
 
 ## Install dependencies for plugins
 
-You need to install: [lazygit](https://github.com/jesseduffield/lazygit?tab=readme-ov-file#installation), [ripgrep](https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation).
+- [Requirements for mason.nvim](https://github.com/mason-org/mason.nvim#requirements)
+- [C compiler for nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter#requirements)
+- [Node.js](https://nodejs.org/en/download)
+
+You also need to install: [lazygit](https://github.com/jesseduffield/lazygit?tab=readme-ov-file#installation), [ripgrep](https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation).
 
 **Linux (Ubuntu/Debian)**:
 
