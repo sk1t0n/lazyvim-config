@@ -6,8 +6,9 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 
 1. General: [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig), [conform.nvim](https://github.com/stevearc/conform.nvim), [neotest](https://github.com/nvim-neotest/neotest), [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter), [nvim-lint](https://github.com/mfussenegger/nvim-lint), [nvim-dap](https://github.com/mfussenegger/nvim-dap), [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui), [actions-preview.nvim](https://github.com/aznhe21/actions-preview.nvim), [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim), [treesj](https://github.com/Wansmer/treesj), [garbage-day.nvim](https://github.com/Zeioth/garbage-day.nvim), [smartcolumn.nvim](https://github.com/m4xshen/smartcolumn.nvim), [focus.nvim](https://github.com/nvim-focus/focus.nvim), [better-escape.nvim](https://github.com/max397574/better-escape.nvim), [zen-mode.nvim](https://github.com/folke/zen-mode.nvim), [timerly](https://github.com/nvzone/timerly)
 2. AI: [windsurf.nvim](https://github.com/Exafunction/windsurf.nvim) or [copilot.vim](https://github.com/github/copilot.vim) + [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim)
-3. Rust: [rustaceanvim](https://github.com/mrcjkb/rustaceanvim), [crates.nvim](https://github.com/saecki/crates.nvim)
-4. Go: [neotest-golang](https://github.com/fredrikaverpil/neotest-golang), [nvim-dap-go](https://github.com/leoluz/nvim-dap-go)
+3. Frontend: [neotest-jest](https://github.com/nvim-neotest/neotest-jest), [nvim-highlight-colors](https://github.com/brenoprata10/nvim-highlight-colors)
+4. Rust: [rustaceanvim](https://github.com/mrcjkb/rustaceanvim), [crates.nvim](https://github.com/saecki/crates.nvim)
+5. Go: [neotest-golang](https://github.com/fredrikaverpil/neotest-golang), [nvim-dap-go](https://github.com/leoluz/nvim-dap-go)
 
 <details>
 <summary>Table of Contents</summary>
