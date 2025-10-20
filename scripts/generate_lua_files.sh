@@ -1,3 +1,4 @@
+generate_frontend() {
 read -p "Install plugins for Frontend? (y/n, default: y): " -i "y" -e need_frontend
 if [[ "$need_frontend" == "y" || "$need_frontend" == "Y" ]]; then
     frontend_plugins='
@@ -124,7 +125,9 @@ else
     js_neotest=""
     js_lint=""
 fi
+}
 
+generate_rust() {
 read -p "Install Rust plugins? (y/n, default: n): " -i "n" -e need_rust
 if [[ "$need_rust" == "y" || "$need_rust" == "Y" ]]; then
     rust_plugins='
@@ -140,8 +143,10 @@ if [[ "$need_rust" == "y" || "$need_rust" == "Y" ]]; then
       require("crates").setup()
     end,
   },'
-    rust_conform='rust = { "rustfmt" },'
-    rust_neotest='require("rustaceanvim.neotest")({
+    rust_conform='
+    rust = { "rustfmt" },'
+    rust_neotest='
+    require("rustaceanvim.neotest")({
       args = {},
     }),'
     rust_treesitter='
@@ -152,7 +157,9 @@ else
     rust_neotest=""
     rust_treesitter=""
 fi
+}
 
+generate_go() {
 read -p "Install Go plugins? (y/n, default: n): " -i "n" -e need_go
 if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
     go_plugins='
@@ -164,11 +171,14 @@ if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
     end,
   },
   { "leoluz/nvim-dap-go" },'
-    go_conform='go = { "gofmt", "goimports", "golines" },'
+    go_conform='
+    go = { "gofmt", "goimports", "golines" },'
     go_lsp=(
         '"golangci_lint_ls",'
     )
-    go_inlay_hint="lspconfig.gopls.setup({
+    go_inlay_hint="
+
+lspconfig.gopls.setup({
   settings = {
     gopls = {
       hints = {
@@ -183,7 +193,8 @@ if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
     },
   },
 })"
-    go_neotest='require("neotest-golang")({
+    go_neotest='
+    require("neotest-golang")({
       runner = "gotestsum",
     }),'
     go_treesitter='
@@ -197,8 +208,10 @@ if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
  (#set! injection.combined))'
     mkdir -p ~/.config/nvim/queries/gotmpl
     echo "$treesitter_gotmpl_injections" > ~/.config/nvim/queries/gotmpl/injections.scm
-    go_lint='go = { "golangcilint" },'
-    go_snippets='{
+    go_lint='
+  go = { "golangcilint" },'
+    go_snippets='
+      {
         "language": ["go"],
         "path": "./go.json"
       }'
@@ -217,7 +230,9 @@ if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
   }
 }'
     echo "$go_snippets_file" > ~/.config/nvim/snippets/go.json
-    go_dap='dap.configurations.go = {
+    go_dap='
+
+dap.configurations.go = {
   {
     type = "delve",
     name = "Debug",
@@ -269,7 +284,9 @@ else
     go_snippets=""
     go_dap=""
 fi
+}
 
+generate_ai() {
 read -p "Install AI plugin? (y/n, default: n): " -i "n" -e need_ai
 if [[ "$need_ai" == "y" || "$need_ai" == "Y" ]]; then
     read -p "Choose plugin (1 - Windsurf, 2 - Copilot, default: 2): " -i "2" -e ai_plugin_input
@@ -300,7 +317,9 @@ if [[ "$need_ai" == "y" || "$need_ai" == "Y" ]]; then
 else
     ai_plugin=""
 fi
+}
 
+generate_plugins() {
 plugins_init_file_begin='return {
   {
     "mason-org/mason-lspconfig.nvim",
@@ -452,25 +471,25 @@ EOM
 plugins_init_file+="${frontend_plugins}${rust_plugins}${go_plugins}${ai_plugin}
 }"
 echo "${plugins_init_file_begin}${plugins_init_file}" > ~/.config/nvim/lua/plugins/init.lua
+}
 
-mkdir -p ~/.config/nvim/lua/config/plugins
-
+generate_conform() {
 config_conform_file="return {
   formatters_by_ft = {
-    $frontend_conform
-    $rust_conform
-    $go_conform
+    ${frontend_conform}${rust_conform}${go_conform}
   },
 }"
 echo "$config_conform_file" > ~/.config/nvim/lua/config/plugins/conform.lua
+}
 
+generate_lspconfig() {
 config_lspconfig_file="local lspconfig = require(\"lspconfig\")
 
-vim.lsp.inlay_hint.enable(true)
-
-$go_inlay_hint"
+vim.lsp.inlay_hint.enable(true)${go_inlay_hint}"
 echo "$config_lspconfig_file" > ~/.config/nvim/lua/config/plugins/lspconfig.lua
+}
 
+generate_treesitter() {
 config_treesitter_file="require(\"nvim-treesitter.configs\").setup({
   ensure_installed = {
     ${frontend_treesitter}${rust_treesitter}${go_treesitter}
@@ -479,21 +498,22 @@ config_treesitter_file="require(\"nvim-treesitter.configs\").setup({
   auto_install = true,
 })"
 echo "$config_treesitter_file" > ~/.config/nvim/lua/config/plugins/treesitter.lua
+}
 
+generate_neotest() {
 config_neotest_file="require(\"neotest\").setup({
   adapters = {
-    $js_neotest
-    $rust_neotest
-    $go_neotest
+    ${js_neotest}${rust_neotest}${go_neotest}
   },
 })"
 echo "$config_neotest_file" > ~/.config/nvim/lua/config/plugins/neotest.lua
+}
 
+generate_lint() {
 config_lint_file="local lint = require(\"lint\")
 
 lint.linters_by_ft = {
-  $js_lint
-  $go_lint
+  ${js_lint}${go_lint}
 }
 
 vim.api.nvim_create_autocmd({ \"BufWritePost\" }, {
@@ -502,18 +522,21 @@ vim.api.nvim_create_autocmd({ \"BufWritePost\" }, {
   end,
 })"
 echo "$config_lint_file" > ~/.config/nvim/lua/config/plugins/lint.lua
+}
 
+generate_snippets() {
 mkdir -p ~/.config/nvim/snippets
 snippets_package_file="{
   \"name\": \"snippets\",
   \"contributes\": {
-    \"snippets\": [
-      $go_snippets
+    \"snippets\": [$go_snippets
     ]
   }
 }"
 echo "$snippets_package_file" > ~/.config/nvim/snippets/package.json
+}
 
+generate_dap() {
 read -r -d '' config_dap_file << 'EOM'
 local ok, dap = pcall(require, "dap")
 
@@ -523,11 +546,11 @@ end
 EOM
 config_dap_file+="
 
-$frontend_dap
-
-$go_dap"
+${frontend_dap}${go_dap}"
 echo "$config_dap_file" > ~/.config/nvim/lua/config/plugins/dap.lua
+}
 
+generate_keymaps() {
 read -r -d '' keymaps_file << 'EOM'
 -- https://neovim.io/doc/user/map.html#%3Amap-verbose
 -- listing a key map will also display where it was last defined
@@ -714,3 +737,24 @@ if vim.fn.exists(":CopilotChat") > 0 then
 end
 EOM
 echo "$keymaps_file" > ~/.config/nvim/lua/config/keymaps.lua
+}
+
+main() {
+generate_frontend
+generate_rust
+generate_go
+generate_ai
+
+mkdir -p ~/.config/nvim/lua/config/plugins
+generate_plugins
+generate_conform
+generate_lspconfig
+generate_treesitter
+generate_neotest
+generate_lint
+generate_snippets
+generate_dap
+generate_keymaps
+}
+
+main
