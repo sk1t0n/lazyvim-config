@@ -86,6 +86,8 @@ sudo apt install lazygit ripgrep
 
 ### Frontend dependencies
 
+You need to install a prebuilt version of superhtml from the [Releases](https://github.com/kristoff-it/superhtml/releases) section (or build it yourself).
+
 You need to build vscode-js-debug.
 
 **Linux**:
