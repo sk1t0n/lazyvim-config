@@ -142,6 +142,27 @@ else
 fi
 }
 
+generate_others() {
+read -p "Install plugins for YAML and Markdown? (y/n, default: y): " -i "y" -e need_others
+if [[ "$need_others" == "y" || "$need_others" == "Y" ]]; then
+    others_plugins=''
+    others_conform='
+    yaml = { "yamlfmt" },'
+    others_lsp=(
+        '"yamlls",'
+    )
+    others_treesitter='
+    "yaml",'
+    others_lint=''
+else
+    others_plugins=""
+    others_conform=""
+    others_lsp=()
+    others_treesitter=""
+    others_lint=""
+fi
+}
+
 generate_rust() {
 read -p "Install Rust plugins? (y/n, default: n): " -i "n" -e need_rust
 if [[ "$need_rust" == "y" || "$need_rust" == "Y" ]]; then
@@ -342,7 +363,7 @@ plugins_init_file_begin='return {
       require("mason-lspconfig").setup({
         ensure_installed = {
 '
-for lsp in "${frontend_lsp[@]}" "${go_lsp[@]}"; do
+for lsp in "${frontend_lsp[@]}" "${others_lsp[@]}" "${go_lsp[@]}"; do
     plugins_init_file_begin+="          $lsp"$'\n'
 done
 plugins_init_file_begin+='        },
@@ -483,7 +504,7 @@ read -r -d '' plugins_init_file << 'EOM'
     },
   },
 EOM
-plugins_init_file+="${frontend_plugins}${rust_plugins}${go_plugins}${ai_plugin}
+plugins_init_file+="${frontend_plugins}${others_plugins}${rust_plugins}${go_plugins}${ai_plugin}
 }"
 echo "${plugins_init_file_begin}${plugins_init_file}" > ~/.config/nvim/lua/plugins/init.lua
 }
@@ -491,7 +512,7 @@ echo "${plugins_init_file_begin}${plugins_init_file}" > ~/.config/nvim/lua/plugi
 generate_conform() {
 config_conform_file="return {
   formatters_by_ft = {
-    ${frontend_conform}${rust_conform}${go_conform}
+    ${frontend_conform}${others_conform}${rust_conform}${go_conform}
   },
 }"
 echo "$config_conform_file" > ~/.config/nvim/lua/config/plugins/conform.lua
@@ -507,7 +528,7 @@ echo "$config_lspconfig_file" > ~/.config/nvim/lua/config/plugins/lspconfig.lua
 generate_treesitter() {
 config_treesitter_file="require(\"nvim-treesitter.configs\").setup({
   ensure_installed = {
-    ${frontend_treesitter}${rust_treesitter}${go_treesitter}
+    ${frontend_treesitter}${others_treesitter}${rust_treesitter}${go_treesitter}
   },
   sync_install = false,
   auto_install = true,
@@ -528,7 +549,7 @@ generate_lint() {
 config_lint_file="local lint = require(\"lint\")
 
 lint.linters_by_ft = {
-  ${js_lint}${go_lint}
+  ${others_lint}${js_lint}${go_lint}
 }
 
 vim.api.nvim_create_autocmd({ \"BufWritePost\" }, {
@@ -760,6 +781,7 @@ echo "$keymaps_file" > ~/.config/nvim/lua/config/keymaps.lua
 
 main() {
 generate_frontend
+generate_others
 generate_rust
 generate_go
 generate_ai

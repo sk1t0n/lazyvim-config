@@ -19,6 +19,10 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 - [Install dependencies for plugins](#install-dependencies-for-plugins)
 - [Install dependencies for selected languages](#install-dependencies-for-selected-languages)
   - [Frontend dependencies](#frontend-dependencies)
+    - [HTML](#html)
+    - [JavaScript, TypeScript](#javascript-typescript)
+  - [Others dependencies](#others-dependencies)
+    - [YAML](#yaml)
   - [Rust dependencies](#rust-dependencies)
   - [Go dependencies](#go-dependencies)
 - [Keymaps](#keymaps)
@@ -86,7 +90,11 @@ sudo apt install lazygit ripgrep
 
 ### Frontend dependencies
 
+#### HTML
+
 You need to install a prebuilt version of superhtml from the [Releases](https://github.com/kristoff-it/superhtml/releases) section (or build it yourself).
+
+#### JavaScript, TypeScript
 
 You need to build vscode-js-debug.
 
@@ -96,6 +104,31 @@ You need to build vscode-js-debug.
 cd ~/.local/share/nvim/lazy/vscode-js-debug
 npm install --legacy-peer-deps
 npx gulp vsDebugServerBundle
+```
+
+### Others dependencies
+
+#### YAML
+
+You need to install: yamlfmt.
+
+**Linux**:
+
+```bash
+# install from source (alternative - install binary)
+go install github.com/google/yamlfmt/cmd/yamlfmt@latest
+```
+
+To configure yamlfmt, you need to create a [configuration file](https://github.com/google/yamlfmt/blob/main/docs/config-file.md).
+
+Example `~/.config/yamlfmt/.yamlfmt`:
+
+```yaml
+formatter:
+  type: basic
+  retain_line_breaks: true
+  indent: 2
+  include_document_start: false
 ```
 
 ### Rust dependencies
