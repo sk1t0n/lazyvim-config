@@ -24,12 +24,12 @@ if [[ "$need_frontend" == "y" || "$need_frontend" == "Y" ]]; then
         '"ts_ls",'
     )
     frontend_treesitter='"html",
-  "css",
-  "json",
-  "jsdoc",
-  "javascript",
-  "typescript",
-  "tsx",'
+    "css",
+    "json",
+    "jsdoc",
+    "javascript",
+    "typescript",
+    "tsx",'
     frontend_dap='local frontend_filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" }
 for _, language in ipairs(frontend_filetypes) do
   dap.configurations[language] = {
@@ -144,7 +144,8 @@ if [[ "$need_rust" == "y" || "$need_rust" == "Y" ]]; then
     rust_neotest='require("rustaceanvim.neotest")({
       args = {},
     }),'
-    rust_treesitter='"rust",'
+    rust_treesitter='
+    "rust",'
 else
     rust_plugins=""
     rust_conform=""
@@ -185,11 +186,12 @@ if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
     go_neotest='require("neotest-golang")({
       runner = "gotestsum",
     }),'
-    go_treesitter='"go",
-  "gomod",
-  "gosum",
-  "gotmpl",
-  "gowork",'
+    go_treesitter='
+    "go",
+    "gomod",
+    "gosum",
+    "gotmpl",
+    "gowork",'
     treesitter_gotmpl_injections='((text) @injection.content
  (#set! injection.language "html")
  (#set! injection.combined))'
@@ -469,10 +471,12 @@ vim.lsp.inlay_hint.enable(true)
 $go_inlay_hint"
 echo "$config_lspconfig_file" > ~/.config/nvim/lua/config/plugins/lspconfig.lua
 
-config_treesitter_file="require(\"nvim-treesitter\").install({
-  $frontend_treesitter
-  $rust_treesitter
-  $go_treesitter
+config_treesitter_file="require(\"nvim-treesitter.configs\").setup({
+  ensure_installed = {
+    ${frontend_treesitter}${rust_treesitter}${go_treesitter}
+  },
+  sync_install = false,
+  auto_install = true,
 })"
 echo "$config_treesitter_file" > ~/.config/nvim/lua/config/plugins/treesitter.lua
 
