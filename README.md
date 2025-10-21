@@ -104,15 +104,10 @@ You need to install a prebuilt version of superhtml from the [Releases](https://
 
 #### JavaScript, TypeScript
 
-You need to build vscode-js-debug.
+You need to install [vscode-js-debug](https://github.com/microsoft/vscode-js-debug).
 
-**Linux**:
-
-```bash
-cd ~/.local/share/nvim/lazy/vscode-js-debug
-npm install --legacy-peer-deps
-npx gulp vsDebugServerBundle
-```
+1. Open nvim
+2. Run the command `:MasonInstall js-debug-adapter`
 
 ### Others dependencies
 

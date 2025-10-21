@@ -2,7 +2,6 @@ generate_frontend() {
 read -p "Install plugins for Frontend? (y/n, default: y): " -i "y" -e need_frontend
 if [[ "$need_frontend" == "y" || "$need_frontend" == "Y" ]]; then
     frontend_plugins='
-  { "microsoft/vscode-js-debug" },
   { "nvim-neotest/neotest-jest" },
   {
     "brenoprata10/nvim-highlight-colors",
@@ -93,7 +92,7 @@ for _, adapter in ipairs(frontend_adapters) do
       command = "node",
       args = {'
     frontend_dap+="
-        \"$HOME/.local/share/nvim/lazy/vscode-js-debug/dist/src/vsDebugServer.js\",
+        \"$HOME/.local/share/nvim/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js\",
         \"\${port}\",
       },
     },
