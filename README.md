@@ -138,7 +138,7 @@ formatter:
 
 You need to install: [doctoc](https://github.com/thlorenz/doctoc), [mdformat](https://github.com/hukkin/mdformat), [vale](https://vale.sh).
 
-**Linux**:
+**Linux (Ubuntu/Debian)**:
 
 ```bash
 npm install -g doctoc
