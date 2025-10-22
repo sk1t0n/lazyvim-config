@@ -125,7 +125,8 @@ end"
         return vim.fn.getcwd()
       end,
     }),'
-    js_lint='javascript = { "biomejs" },
+    js_lint='
+  javascript = { "biomejs" },
   typescript = { "biomejs" },
   javascriptreact = { "biomejs" },
   typescriptreact = { "biomejs" },'
@@ -144,15 +145,25 @@ fi
 generate_others() {
 read -p "Install plugins for YAML and Markdown? (y/n, default: y): " -i "y" -e need_others
 if [[ "$need_others" == "y" || "$need_others" == "Y" ]]; then
-    others_plugins=''
+    others_plugins='
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.icons" },
+    opts = {},
+  },'
     others_conform='
-    yaml = { "yamlfmt" },'
+    yaml = { "yamlfmt" },
+    markdown = { "mdformat" },'
     others_lsp=(
-        '"yamlls",'
+        '"yamlls",
+          "harper_ls",
+          "marksman",'
     )
     others_treesitter='
-    "yaml",'
-    others_lint=''
+    "yaml",
+    "markdown",
+    "markdown_inline",'
+    others_lint='markdown = { "vale" },'
 else
     others_plugins=""
     others_conform=""
@@ -746,6 +757,16 @@ set("n", "<leader>uz", "<cmd>ZenMode<cr>", { desc = "Zen Mode" })
 
 -- Timerly
 set("n", "<leader>T", "<cmd>TimerlyToggle<cr>", { desc = "Toggle Timer" })
+
+-- Markdown
+if vim.fn.exists(":RenderMarkdown") > 0 then
+  set("n", "<leader>m", "", { desc = "+markdown" })
+  set("n", "<leader>mm", "<cmd>RenderMarkdown toggle<cr>", { desc = "Toggle RenderMarkdown" })
+  set("n", "<leader>mt", function()
+    local current_file = vim.fn.expand("%")
+    os.execute("doctoc " .. current_file)
+  end, { desc = "Generate Table of Contents" })
+end
 
 -- AI
 if vim.fn.exists(":Codeium") > 0 then
