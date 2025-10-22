@@ -1,6 +1,6 @@
 # lazyvim_config
 
-Scripts for installing LazyVim and generating Lua files. Users can select the programming languages ​​for which Lua files will be generated. This allows you to install and configure only plugins for the languages ​​you need. Supported languages: Rust, Go.
+Scripts for installing LazyVim and generating Lua files. Users can select the programming languages ​​for which Lua files will be generated. This allows you to install and configure only plugins for the languages ​​you need. Supported programming, markup, and stylesheet languages: HTML, CSS, JSON, YAML, Markdown, JavaScript/TypeScript with React, Rust, Go.
 
 **Plugins that can install and setup**:
 
