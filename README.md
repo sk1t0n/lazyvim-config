@@ -117,8 +117,6 @@ You need to install [vscode-js-debug](https://github.com/microsoft/vscode-js-deb
 
 You need to install: yamlfmt.
 
-**Linux**:
-
 ```bash
 # install from source (alternative - install binary)
 go install github.com/google/yamlfmt/cmd/yamlfmt@latest
