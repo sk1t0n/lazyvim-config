@@ -166,6 +166,14 @@ if [[ "$need_others" == "y" || "$need_others" == "Y" ]]; then
     init = function()
       vim.g.db_ui_use_nerd_fonts = 1
     end,
+  },
+  {
+    "mistweaverco/kulala.nvim",
+    ft = { "http", "rest" },
+    opts = {
+      global_keymaps = true,
+      global_keymaps_prefix = "<leader>r",
+    },
   },'
     others_conform='
     yaml = { "yamlfmt" },
@@ -791,6 +799,12 @@ end
 -- Databases
 if vim.fn.exists(":DBUI") > 0 then
   set("n", "<leader>D", "<cmd>DBUIToggle<cr>", { desc = "Toggle DBUI" })
+end
+
+-- HTTP
+local ok = pcall(require, "kulala")
+if ok then
+  set("n", "<leader>r", "", { desc = "+request" })
 end
 
 -- AI
