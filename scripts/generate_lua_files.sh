@@ -143,27 +143,47 @@ fi
 }
 
 generate_others() {
-read -p "Install plugins for YAML and Markdown? (y/n, default: y): " -i "y" -e need_others
+read -p "Install plugins for YAML, Markdown and SQL? (y/n, default: y): " -i "y" -e need_others
 if [[ "$need_others" == "y" || "$need_others" == "Y" ]]; then
     others_plugins='
   {
     "MeanderingProgrammer/render-markdown.nvim",
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.icons" },
     opts = {},
+  },
+  {
+    "kristijanhusak/vim-dadbod-ui",
+    dependencies = {
+      { "tpope/vim-dadbod", lazy = true },
+      { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
+    },
+    cmd = {
+      "DBUI",
+      "DBUIToggle",
+      "DBUIAddConnection",
+      "DBUIFindBuffer",
+    },
+    init = function()
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
   },'
     others_conform='
     yaml = { "yamlfmt" },
-    markdown = { "mdformat" },'
+    markdown = { "mdformat" },
+    sql = { "sqruff" },'
     others_lsp=(
         '"yamlls",
           "harper_ls",
-          "marksman",'
+          "marksman",
+          "sqls",'
     )
     others_treesitter='
     "yaml",
     "markdown",
-    "markdown_inline",'
-    others_lint='markdown = { "vale" },'
+    "markdown_inline",
+    "sql",'
+    others_lint='markdown = { "vale" },
+  sql = { "sqruff" },'
 else
     others_plugins=""
     others_conform=""
@@ -766,6 +786,11 @@ if vim.fn.exists(":RenderMarkdown") > 0 then
     local current_file = vim.fn.expand("%")
     os.execute("doctoc " .. current_file)
   end, { desc = "Generate Table of Contents" })
+end
+
+-- Databases
+if vim.fn.exists(":DBUI") > 0 then
+  set("n", "<leader>D", "<cmd>DBUIToggle<cr>", { desc = "Toggle DBUI" })
 end
 
 -- AI

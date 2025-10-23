@@ -1,12 +1,12 @@
 # lazyvim_config
 
-Scripts for installing LazyVim and generating Lua files. Users can select the programming languages ​​for which Lua files will be generated. This allows you to install and configure only plugins for the languages ​​you need. Supported programming, markup, and stylesheet languages: HTML, CSS, JSON, YAML, Markdown, JavaScript/TypeScript with React, Rust, Go.
+Scripts for installing LazyVim and generating Lua files. Users can select the programming languages ​​for which Lua files will be generated. This allows you to install and configure only plugins for the languages ​​you need. Supported programming, markup, and stylesheet languages: HTML, CSS, JSON, YAML, Markdown, SQL, JavaScript/TypeScript with React, Rust, Go.
 
 **Plugins that can install and setup**:
 
 1. General: [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig), [conform.nvim](https://github.com/stevearc/conform.nvim), [neotest](https://github.com/nvim-neotest/neotest), [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter), [nvim-lint](https://github.com/mfussenegger/nvim-lint), [nvim-dap](https://github.com/mfussenegger/nvim-dap), [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui), [actions-preview.nvim](https://github.com/aznhe21/actions-preview.nvim), [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim), [treesj](https://github.com/Wansmer/treesj), [garbage-day.nvim](https://github.com/Zeioth/garbage-day.nvim), [smartcolumn.nvim](https://github.com/m4xshen/smartcolumn.nvim), [focus.nvim](https://github.com/nvim-focus/focus.nvim), [better-escape.nvim](https://github.com/max397574/better-escape.nvim), [zen-mode.nvim](https://github.com/folke/zen-mode.nvim), [timerly](https://github.com/nvzone/timerly)
 2. AI: [windsurf.nvim](https://github.com/Exafunction/windsurf.nvim) or [copilot.vim](https://github.com/github/copilot.vim) + [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim)
-3. Others: [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim)
+3. Others: [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim), [vim-dadbod-ui](https://github.com/kristijanhusak/vim-dadbod-ui)
 4. Frontend: [neotest-jest](https://github.com/nvim-neotest/neotest-jest), [nvim-highlight-colors](https://github.com/brenoprata10/nvim-highlight-colors)
 5. Rust: [rustaceanvim](https://github.com/mrcjkb/rustaceanvim), [crates.nvim](https://github.com/saecki/crates.nvim)
 6. Go: [neotest-golang](https://github.com/fredrikaverpil/neotest-golang), [nvim-dap-go](https://github.com/leoluz/nvim-dap-go)
@@ -26,6 +26,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
   - [Others dependencies](#others-dependencies)
     - [YAML](#yaml)
     - [Markdown](#markdown)
+    - [SQL](#sql)
   - [Rust dependencies](#rust-dependencies)
   - [Go dependencies](#go-dependencies)
 - [Keymaps](#keymaps)
@@ -38,6 +39,8 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
   - [nvim-dap](#nvim-dap)
   - [nvim-dap-ui](#nvim-dap-ui)
   - [timerly](#timerly)
+  - [render-markdown.nvim](#render-markdownnvim)
+  - [vim-dadbod-ui](#vim-dadbod-ui)
   - [windsurf.nvim](#windsurfnvim)
   - [copilot.vim, CopilotChat.nvim](#copilotvim-copilotchatnvim)
 - [AI](#ai)
@@ -163,6 +166,32 @@ Before using vale, you need
     ```
 
 - to run `vale sync` to download and install packages.
+
+#### SQL
+
+You need to install: [sqruff](https://github.com/quarylabs/sqruff).
+
+**Linux**:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/quarylabs/sqruff/main/install.sh | bash
+```
+
+To configure sqruff, you need to create a [configuration file](https://github.com/quarylabs/sqruff#configuration) in the root folder of your project.
+
+Example `.sqruff`:
+
+```ini
+[sqruff]
+dialect = sqlite
+exclude_rules = AM01,AM02
+rules = all
+
+[sqruff:indentation]
+indent_unit = space
+tab_space_size = 4
+indented_joins = True
+```
 
 ### Rust dependencies
 
@@ -772,6 +801,12 @@ linters:
 |:------------:|----------------------------|:-----:|
 | `<leader>mm` | Toggle RenderMarkdown      | **n** |
 | `<leader>mt` | Generate Table of Contents | **n** |
+
+### vim-dadbod-ui
+
+|     Key     | Description | Mode  |
+|:-----------:|-------------|:-----:|
+| `<leader>D` | Toggle DBUI | **n** |
 
 ### windsurf.nvim
 
