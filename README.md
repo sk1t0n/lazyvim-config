@@ -1,6 +1,6 @@
 # lazyvim_config
 
-Scripts for installing LazyVim and generating Lua files. Users can select the programming languages ​​for which Lua files will be generated. This allows you to install and configure only plugins for the languages ​​you need. Supported programming, markup, and stylesheet languages: HTML, CSS, JSON, YAML, Markdown, SQL, HTTP, JavaScript/TypeScript with React, Rust, Go.
+Scripts for installing LazyVim and generating Lua files. Users can select the programming languages ​​for which Lua files will be generated. This allows you to install and configure only plugins for the languages ​​you need. Supported programming, markup, and stylesheet languages: HTML with Emmet, CSS with Tailwind, JSON, YAML, Markdown, SQL, HTTP, JavaScript/TypeScript with React, Rust, Go, PHP with Laravel.
 
 **Plugins that can install and setup**:
 
@@ -10,6 +10,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 4. Frontend: [neotest-jest](https://github.com/nvim-neotest/neotest-jest), [nvim-highlight-colors](https://github.com/brenoprata10/nvim-highlight-colors)
 5. Rust: [rustaceanvim](https://github.com/mrcjkb/rustaceanvim), [crates.nvim](https://github.com/saecki/crates.nvim)
 6. Go: [neotest-golang](https://github.com/fredrikaverpil/neotest-golang), [nvim-dap-go](https://github.com/leoluz/nvim-dap-go)
+7. PHP: [neotest-pest](https://github.com/V13Axel/neotest-pest), [blade-nav.nvim](https://github.com/RicardoRamirezR/blade-nav.nvim)
 
 <details>
 <summary>Table of Contents</summary>
@@ -30,6 +31,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
     - [HTTP](#http)
   - [Rust dependencies](#rust-dependencies)
   - [Go dependencies](#go-dependencies)
+  - [PHP dependencies](#php-dependencies)
 - [Keymaps](#keymaps)
   - [General](#general)
   - [LSP](#lsp)
@@ -43,6 +45,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
   - [render-markdown.nvim](#render-markdownnvim)
   - [vim-dadbod-ui](#vim-dadbod-ui)
   - [kulala.nvim](#kulalanvim)
+  - [blade-nav.nvim](blade-navnvim)
   - [windsurf.nvim](#windsurfnvim)
   - [copilot.vim, CopilotChat.nvim](#copilotvim-copilotchatnvim)
 - [AI](#ai)
@@ -55,7 +58,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 
 - [Neovim](https://github.com/neovim/neovim/blob/master/INSTALL.md)
 - [Git](https://git-scm.com/downloads)
-- [Nerd Font](https://www.nerdfonts.com/font-downloads) - for to support icons in fonts (example configuration file for [WezTerm](https://github.com/sk1t0n/dotfiles/blob/master/home/anton/.wezterm.lua#L13))
+- [Nerd Font](https://www.nerdfonts.com/font-downloads) - for to support icons in fonts (example configuration file for [WezTerm](https://github.com/sk1t0n/dotfiles/blob/master/home/anton/.wezterm.lua#L13), [mappings](https://github.com/sk1t0n/nvchad-config#mappings) for this WezTerm configuration)
 - [bash](https://www.gnu.org/software/bash/)
 - [make](https://www.gnu.org/software/make/)
 
@@ -115,6 +118,36 @@ You need to install [vscode-js-debug](https://github.com/microsoft/vscode-js-deb
 
 1. Open nvim
 2. Run the command `:MasonInstall js-debug-adapter`
+
+To configure biome, you need to create a [configuration file](https://biomejs.dev/reference/configuration/) in the root folder of your project.
+
+Example `biome.json`:
+
+```json
+{
+  "javascript": {
+    "formatter": {
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "quoteStyle": "double",
+      "semicolons": "always"
+    }
+  },
+  "json": {
+    "formatter": {
+      "indentStyle": "space",
+      "indentWidth": 2
+    }
+  },
+  "css": {
+    "formatter": {
+      "enabled": true,
+      "indentStyle": "space",
+      "indentWidth": 2
+    }
+  }
+}
+```
 
 ### Others dependencies
 
@@ -709,6 +742,76 @@ linters:
           - wrapcheck
 ```
 
+### PHP dependencies
+
+You need to install [blade-formatter](https://github.com/shufo/blade-formatter).
+
+```bash
+npm install -g blade-formatter
+```
+
+You need to install [vscode-php-debug](https://github.com/xdebug/vscode-php-debug).
+
+1. Open nvim
+2. Run the command `:MasonInstall php-debug-adapter`
+
+To configure phpstan, you need to create a [configuration file](https://phpstan.org/config-reference) in the root folder of your project.
+
+Example `phpstan.neon`:
+
+```yaml
+parameters:
+ level: 6
+ paths:
+  - src
+  - tests
+```
+
+To configure pint, you need to create a [configuration file](https://laravel.com/docs/12.x/pint#configuring-pint) in the root folder of your project.
+
+Example `pint.json`:
+
+```json
+{
+    "preset": "laravel"
+}
+```
+
+Instead of pint, you can configure php-cs-fixer. To do this, you need to create a [configuration file](https://cs.symfony.com/doc/config.html) in the root folder of your project.
+
+Example `.php-cs-fixer.dist.php`:
+
+```php
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->exclude(['node_modules', 'storage', 'vendor'])
+    ->in(__DIR__);
+
+$config = new PhpCsFixer\Config();
+
+return $config
+    ->setRiskyAllowed(true)
+    ->setRules([
+        '@PhpCsFixer' => true,
+        'echo_tag_syntax' => ['format' => 'long'],
+        'multiline_whitespace_before_semicolons' => [
+            'strategy' => 'no_multi_line',
+        ],
+        'yoda_style' => [
+            'equal' => false,
+            'identical' => false,
+            'less_and_greater' => false,
+        ],
+        'blank_line_before_statement' => [
+            'statements' => ['declare', 'return'],
+        ],
+        'no_alternative_syntax' => ['fix_non_monolithic_code' => false],
+        'phpdoc_to_comment' => ['ignored_tags' => ['var']],
+        'not_operator_with_successor_space' => true,
+    ])->setFinder($finder);
+```
+
 ## Keymaps
 
 [LazyVim Keymaps](https://www.lazyvim.org/keymaps)
@@ -828,6 +931,12 @@ linters:
 | `<leader>rs` | Send request      | **n**, **v** |
 | `<leader>ra` | Send all requests | **n**, **v** |
 | `<leader>rb` | Open scratchpad   |    **n**     |
+
+### blade-nav.nvim
+
+| Key | Description                                  | Mode  |
+|:---:|----------------------------------------------|:-----:|
+| gf  | Goto File (Blade template / Blade component) | **n** |
 
 ### windsurf.nvim
 
