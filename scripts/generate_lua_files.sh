@@ -360,12 +360,150 @@ else
 fi
 }
 
+generate_php() {
+read -p "Install PHP plugins? (y/n, default: n): " -i "n" -e need_php
+if [[ "$need_php" == "y" || "$need_php" == "Y" ]]; then
+    php_plugins='
+  { "V13Axel/neotest-pest" },'
+    php_conform='
+    php = { "pint", "php_cs_fixer", stop_after_first = true },
+    blade = { "blade-formatter" },'
+    php_lsp=(
+        '"intelephense",'
+    )
+    php_neotest='
+    require("neotest-pest"),'
+    php_treesitter='
+    "php",
+    "php_only",
+    "phpdoc",
+    "blade",'
+    mkdir -p ~/.config/nvim/queries/blade
+    treesitter_blade_highlights='; inherits: html
+
+[
+  (directive)
+  (directive_start)
+  (directive_end)
+] @tag
+
+[
+  (php_tag)
+  (php_end_tag)
+  "{{"
+  "}}"
+  "{!!"
+  "!!}"
+  "("
+  ")"
+] @punctuation.bracket'
+    echo "$treesitter_blade_highlights" > ~/.config/nvim/queries/blade/highlights.scm
+    treesitter_blade_injections='; inherits: html
+
+((php_only) @injection.content
+  (#set! injection.language "php_only"))
+
+((parameter) @injection.content
+    (#set! injection.include-children)
+    (#set! injection.language "php_only"))
+
+((text) @injection.content
+    (#has-ancestor? @injection.content "envoy")
+    (#set! injection.combined)
+    (#set! injection.language bash))
+
+; Livewire attributes
+; <div wire:click="baz++">
+(attribute
+  (attribute_name) @_attr
+    (#any-of? @_attr "wire:model"
+      "wire:click"
+      "wire:stream"
+      "wire:text"
+      "wire:show")
+  (quoted_attribute_value
+    (attribute_value) @injection.content)
+  (#set! injection.language "javascript"))
+
+
+; AlpineJS attributes
+; <div x-data="{ foo: 'bar' }" x-init="baz()">
+(attribute
+  (attribute_name) @_attr
+    (#match? @_attr "^x-[a-z]+")
+    (#not-any-of? @_attr "x-teleport" "x-ref" "x-transition")
+  (quoted_attribute_value
+    (attribute_value) @injection.content)
+  (#set! injection.language "javascript"))
+; <div :foo="bar" @click="baz()">
+(attribute
+  (attribute_name) @_attr
+    (#match? @_attr "^[:@][a-z]+")
+  (quoted_attribute_value
+    (attribute_value) @injection.content)
+  (#set! injection.language "javascript"))
+
+; Blade escaped JS attributes
+; <x-foo ::bar="baz" />
+(element
+  (_
+    (tag_name) @_tag
+      (#match? @_tag "^x-[a-z]+")
+  (attribute
+    (attribute_name) @_attr
+      (#match? @_attr "^::[a-z]+")
+    (quoted_attribute_value
+      (attribute_value) @injection.content)
+    (#set! injection.language "javascript"))))
+
+; Blade PHP attributes
+; <x-foo :bar="$baz" />
+(element
+  (_
+    (tag_name) @_tag
+      (#match? @_tag "^x-[a-z]+")
+    (attribute
+      (attribute_name) @_attr
+        (#match? @_attr "^:[a-z]+")
+      (quoted_attribute_value
+        (attribute_value) @injection.content)
+      (#set! injection.language "php_only"))))'
+    echo "$treesitter_blade_injections" > ~/.config/nvim/queries/blade/injections.scm
+    php_lint='
+  php = { "phpstan" },'
+    php_dap='
+
+dap.configurations.php = {
+  {
+    type = "xdebug",
+    name = "Debug",
+    request = "launch",
+    port = 9003,
+  },
+}
+dap.adapters.xdebug = {
+  type = "executable",
+  command = "node",
+  args = { '
+    php_dap+="\"$HOME/.local/share/nvim/mason/packages/php-debug-adapter/extension/out/phpDebug.js\" },
+}"
+else
+    php_plugins=""
+    php_conform=""
+    php_lsp=()
+    php_neotest=""
+    php_treesitter=""
+    php_lint=""
+    php_dap=""
+fi
+}
+
 generate_ai() {
 read -p "Install AI plugin? (y/n, default: n): " -i "n" -e need_ai
 if [[ "$need_ai" == "y" || "$need_ai" == "Y" ]]; then
     read -p "Choose plugin (1 - Windsurf, 2 - Copilot, default: 2): " -i "2" -e ai_plugin_input
     if [[ "$ai_plugin_input" == 1 ]]; then
-        ai_plugin='
+        ai_plugins='
   {
     "Exafunction/windsurf.nvim",
     config = function()
@@ -378,7 +516,7 @@ if [[ "$need_ai" == "y" || "$need_ai" == "Y" ]]; then
     end,
   },'
     else
-        ai_plugin='
+        ai_plugins='
   { "github/copilot.vim" },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
@@ -389,7 +527,7 @@ if [[ "$need_ai" == "y" || "$need_ai" == "Y" ]]; then
   },'
     fi
 else
-    ai_plugin=""
+    ai_plugins=""
 fi
 }
 
@@ -401,7 +539,7 @@ plugins_init_file_begin='return {
       require("mason-lspconfig").setup({
         ensure_installed = {
 '
-for lsp in "${frontend_lsp[@]}" "${others_lsp[@]}" "${go_lsp[@]}"; do
+for lsp in "${frontend_lsp[@]}" "${others_lsp[@]}" "${go_lsp[@]}" "${php_lsp[@]}"; do
     plugins_init_file_begin+="          $lsp"$'\n'
 done
 plugins_init_file_begin+='        },
@@ -542,7 +680,7 @@ read -r -d '' plugins_init_file << 'EOM'
     },
   },
 EOM
-plugins_init_file+="${frontend_plugins}${others_plugins}${rust_plugins}${go_plugins}${ai_plugin}
+plugins_init_file+="${frontend_plugins}${others_plugins}${rust_plugins}${go_plugins}${php_plugins}${ai_plugins}
 }"
 echo "${plugins_init_file_begin}${plugins_init_file}" > ~/.config/nvim/lua/plugins/init.lua
 }
@@ -550,7 +688,7 @@ echo "${plugins_init_file_begin}${plugins_init_file}" > ~/.config/nvim/lua/plugi
 generate_conform() {
 config_conform_file="return {
   formatters_by_ft = {
-    ${frontend_conform}${others_conform}${rust_conform}${go_conform}
+    ${frontend_conform}${others_conform}${rust_conform}${go_conform}${php_conform}
   },
 }"
 echo "$config_conform_file" > ~/.config/nvim/lua/config/plugins/conform.lua
@@ -566,7 +704,7 @@ echo "$config_lspconfig_file" > ~/.config/nvim/lua/config/plugins/lspconfig.lua
 generate_treesitter() {
 config_treesitter_file="require(\"nvim-treesitter.configs\").setup({
   ensure_installed = {
-    ${frontend_treesitter}${others_treesitter}${rust_treesitter}${go_treesitter}
+    ${frontend_treesitter}${others_treesitter}${rust_treesitter}${go_treesitter}${php_treesitter}
   },
   sync_install = false,
   auto_install = true,
@@ -577,7 +715,7 @@ echo "$config_treesitter_file" > ~/.config/nvim/lua/config/plugins/treesitter.lu
 generate_neotest() {
 config_neotest_file="require(\"neotest\").setup({
   adapters = {
-    ${js_neotest}${rust_neotest}${go_neotest}
+    ${js_neotest}${rust_neotest}${go_neotest}${php_neotest}
   },
 })"
 echo "$config_neotest_file" > ~/.config/nvim/lua/config/plugins/neotest.lua
@@ -587,7 +725,7 @@ generate_lint() {
 config_lint_file="local lint = require(\"lint\")
 
 lint.linters_by_ft = {
-  ${others_lint}${js_lint}${go_lint}
+  ${others_lint}${js_lint}${go_lint}${php_lint}
 }
 
 vim.api.nvim_create_autocmd({ \"BufWritePost\" }, {
@@ -620,7 +758,7 @@ end
 EOM
 config_dap_file+="
 
-${frontend_dap}${go_dap}"
+${frontend_dap}${go_dap}${php_dap}"
 echo "$config_dap_file" > ~/.config/nvim/lua/config/plugins/dap.lua
 }
 
@@ -843,6 +981,7 @@ generate_frontend
 generate_others
 generate_rust
 generate_go
+generate_php
 generate_ai
 
 mkdir -p ~/.config/nvim/lua/config/plugins
