@@ -240,7 +240,7 @@ exclude = [
 
 Before using vale, you need
 
-- to create a [configuration file](https://vale.sh/docs/vale-ini), for example `~/.config/vale/.vale.ini`:
+- create a [configuration file](https://vale.sh/docs/vale-ini), for example `~/.config/vale/.vale.ini`:
 
     ```ini
     StylesPath = .
@@ -251,7 +251,7 @@ Before using vale, you need
     BasedOnStyles = Vale, alex
     ```
 
-- to run `vale sync` to download and install packages.
+- run `vale sync` to download and install packages.
 
 #### SQL
 
