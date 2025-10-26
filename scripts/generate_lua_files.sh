@@ -14,6 +14,7 @@ if [[ "$need_frontend" == "y" || "$need_frontend" == "Y" ]]; then
     typescript = { "biome" },
     typescriptreact = { "biome" },
     json = { "biome" },
+    html = { "biome" },
     css = { "biome" },'
     frontend_lsp=(
         '"html",'
@@ -98,17 +99,6 @@ for _, adapter in ipairs(frontend_adapters) do
     },
   }
 end"
-    frontend_autocmds='vim.api.nvim_create_autocmd("Filetype", {
-  pattern = { "html" },
-  callback = function()
-    vim.lsp.start({
-      name = "superhtml",
-      cmd = { "superhtml", "lsp" },
-      root_dir = vim.fs.dirname(vim.fs.find({ ".git" }, { upward = true })[1]),
-    })
-    vim.keymap.set("n", "<C-s>", "<cmd>!superhtml fmt .<cr>")
-  end,
-})'
     js_neotest='require("neotest-jest")({
       jestCommand = "npm test",
       jestConfigFile = function()
@@ -136,7 +126,6 @@ else
     frontend_lsp=()
     frontend_treesitter=""
     frontend_dap=""
-    frontend_autocmds=""
     js_neotest=""
     js_lint=""
 fi
@@ -731,10 +720,6 @@ ${frontend_dap}${go_dap}${php_dap}"
 echo "$config_dap_file" > ~/.config/nvim/lua/config/plugins/dap.lua
 }
 
-generate_autocmds() {
-echo "$frontend_autocmds" > ~/.config/nvim/lua/config/autocmds.lua
-}
-
 generate_keymaps() {
 read -r -d '' keymaps_file << 'EOM'
 -- https://neovim.io/doc/user/map.html#%3Amap-verbose
@@ -962,7 +947,6 @@ generate_neotest
 generate_lint
 generate_snippets
 generate_dap
-generate_autocmds
 generate_keymaps
 }
 
