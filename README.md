@@ -59,8 +59,8 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 - Unix (Linux/Mac). If all plugins and their dependencies support Windows, you can try the following steps:
   1. install, for example, [Cygwin](https://cygwin.com/index.html) to work with bash, make, echo, printf, read, mkdir, curl, gcc etc;
   2. replace all paths in the script `scripts/generate_lua_files.sh`. Paths to replace:
-     - `~/.config/nvim` to `~/AppData/Local/nvim`,
-     - `~/.local/share/nvim` to `~/AppData/Local/nvim-data`.
+     - `~/.config/nvim` :arrow_right: `~/AppData/Local/nvim`,
+     - `~/.local/share/nvim` :arrow_right: `~/AppData/Local/nvim-data`.
 - [Neovim](https://github.com/neovim/neovim/blob/master/INSTALL.md)
 - [Git](https://git-scm.com/downloads)
 - [Nerd Font](https://www.nerdfonts.com/font-downloads) - for to support icons in fonts (example configuration file for [WezTerm](https://github.com/sk1t0n/dotfiles/blob/master/home/anton/.wezterm.lua#L13), [mappings](https://github.com/sk1t0n/nvchad-config#mappings) for this WezTerm configuration)
