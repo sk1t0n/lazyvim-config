@@ -56,6 +56,11 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 
 ## Requirements
 
+- Unix (Linux/Mac). If all plugins and their dependencies support Windows, you can try the following steps:
+  1. to install, for example, [Cygwin](https://cygwin.com/index.html) to work with bash, make, echo, printf, read, mkdir, curl, gcc etc;
+  2. to replace all paths in the `scripts/generate_lua_files.sh` bash script. Paths to replace:
+     - `~/.config/nvim` to `~/AppData/Local/nvim`,
+     - `~/.local/share/nvim` to `~/AppData/Local/nvim-data`.
 - [Neovim](https://github.com/neovim/neovim/blob/master/INSTALL.md)
 - [Git](https://git-scm.com/downloads)
 - [Nerd Font](https://www.nerdfonts.com/font-downloads) - for to support icons in fonts (example configuration file for [WezTerm](https://github.com/sk1t0n/dotfiles/blob/master/home/anton/.wezterm.lua#L13), [mappings](https://github.com/sk1t0n/nvchad-config#mappings) for this WezTerm configuration)
@@ -64,7 +69,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 
 ## Install LazyVim and generate lua files
 
-**Linux**:
+**Unix (Linux/Mac)**:
 
 ```bash
 make install
@@ -74,7 +79,7 @@ make
 
 ## Delete configuration
 
-**Linux**:
+**Unix (Linux/Mac)**:
 
 ```bash
 make delete
@@ -84,7 +89,7 @@ make delete DELETE_WITH_BACKUPS=true
 
 ## Regenerate lua files if needed
 
-**Linux**:
+**Unix (Linux/Mac)**:
 
 ```bash
 make generate
@@ -102,7 +107,15 @@ You also need to install: [lazygit](https://github.com/jesseduffield/lazygit?tab
 **Linux (Ubuntu/Debian)**:
 
 ```bash
+sudo apt update
 sudo apt install lazygit ripgrep
+```
+
+**Mac**:
+
+```bash
+brew update
+brew install lazygit ripgrep
 ```
 
 ## Install dependencies for selected languages
@@ -160,10 +173,10 @@ To configure biome, you need to create a [configuration file](https://biomejs.de
 
 #### YAML
 
-You need to install: yamlfmt.
+You need to install: [yamlfmt](https://github.com/google/yamlfmt/releases).
 
 ```bash
-# install from source (alternative - install binary)
+# install from source (or you can choose your installation method from the link above)
 go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 ```
 
@@ -187,11 +200,20 @@ You need to install: [doctoc](https://github.com/thlorenz/doctoc), [mdformat](ht
 
 ```bash
 npm install -g doctoc
-sudo apt update
 sudo apt install pipx
 pipx install mdformat
 pipx inject mdformat mdformat-gfm
 sudo snap install vale # for Ubuntu
+```
+
+**Mac**:
+
+```bash
+npm install -g doctoc
+brew install pipx
+pipx install mdformat
+pipx inject mdformat mdformat-gfm
+brew install vale
 ```
 
 To configure mdformat, you need to create a [configuration file](https://mdformat.readthedocs.io/en/stable/users/configuration_file.html) in the root folder of your project.
@@ -241,6 +263,12 @@ You need to install: [sqruff](https://github.com/quarylabs/sqruff).
 curl -fsSL https://raw.githubusercontent.com/quarylabs/sqruff/main/install.sh | bash
 ```
 
+**Mac**:
+
+```bash
+brew install sqruff
+```
+
 To configure sqruff, you need to create a [configuration file](https://github.com/quarylabs/sqruff#configuration) in the root folder of your project.
 
 Example `.sqruff`:
@@ -264,29 +292,34 @@ You need to install: [curl](https://curl.se/download.html).
 **Linux (Ubuntu/Debian)**:
 
 ```bash
-sudo apt update
 sudo apt install curl
+```
+
+**Mac**:
+
+```bash
+brew install curl
 ```
 
 ### Rust dependencies
 
 You need to install: rust-analyzer, rustfmt, [cargo-nextest](https://github.com/nextest-rs/nextest/tree/main/cargo-nextest).
 
-**Linux**:
+**Unix (Linux/Mac)**:
 
 ```bash
 rustup component add rust-analyzer
 rustup component add rustfmt
-curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash # or for Mac: brew install cargo-binstall
 cargo binstall cargo-nextest --secure
 ```
 
 ### Go dependencies
 
-You need to install: gopls, golangci-lint, goimports, golines, delve.
+You need to install: gopls, [golangci-lint](https://golangci-lint.run/docs/welcome/install/#local-installation), goimports, [golines](https://github.com/segmentio/golines/releases), [delve](https://github.com/go-delve/delve/tree/master/Documentation/installation).
 
 ```bash
-# install from source (alternative - install binary)
+# install from source (or you can choose your installation method from the link above)
 go install golang.org/x/tools/gopls@latest
 go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
 go install golang.org/x/tools/cmd/goimports@latest
