@@ -18,7 +18,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 - [Requirements](#requirements)
 - [Install LazyVim and generate lua files](#install-lazyvim-and-generate-lua-files)
 - [Delete configuration](#delete-configuration)
-- [Regenerate lua files if needed](#regenerate-lua-files-if-needed)
+- [Regenerate lua files if necessary](#regenerate-lua-files-if-necessary)
 - [Install dependencies for plugins](#install-dependencies-for-plugins)
 - [Install dependencies for selected languages](#install-dependencies-for-selected-languages)
   - [Frontend dependencies](#frontend-dependencies)
@@ -87,7 +87,7 @@ make delete
 make delete DELETE_WITH_BACKUPS=true
 ```
 
-## Regenerate lua files if needed
+## Regenerate lua files if necessary
 
 **Unix (Linux/Mac)**:
 
@@ -102,7 +102,7 @@ make generate
 - [Python for mdformat](https://www.python.org/downloads/)
 - [Node.js](https://nodejs.org/en/download)
 
-You also need to install: [lazygit](https://github.com/jesseduffield/lazygit?tab=readme-ov-file#installation), [ripgrep](https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation).
+You also should install: [lazygit](https://github.com/jesseduffield/lazygit?tab=readme-ov-file#installation), [ripgrep](https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation).
 
 **Linux (Ubuntu/Debian)**:
 
@@ -128,7 +128,7 @@ To enable formatting, you need to set the `html.formatter.enabled` parameter to 
 
 #### JavaScript, TypeScript
 
-You need to install [vscode-js-debug](https://github.com/microsoft/vscode-js-debug).
+You should install [vscode-js-debug](https://github.com/microsoft/vscode-js-debug).
 
 1. Open nvim
 2. Run the command `:MasonInstall js-debug-adapter`
@@ -173,7 +173,7 @@ To configure biome, you need to create a [configuration file](https://biomejs.de
 
 #### YAML
 
-You need to install: [yamlfmt](https://github.com/google/yamlfmt/releases).
+You should install: [yamlfmt](https://github.com/google/yamlfmt/releases).
 
 ```bash
 # install from source (or you can choose your installation method from the link above)
@@ -194,7 +194,7 @@ formatter:
 
 #### Markdown
 
-You need to install: [doctoc](https://github.com/thlorenz/doctoc), [mdformat](https://github.com/hukkin/mdformat), [vale](https://vale.sh).
+You should install: [doctoc](https://github.com/thlorenz/doctoc), [mdformat](https://github.com/hukkin/mdformat), [vale](https://vale.sh).
 
 **Linux (Ubuntu/Debian)**:
 
@@ -238,24 +238,24 @@ exclude = [
 ]
 ```
 
-Before using vale, you need
+Before using vale, you must
 
-- create a [configuration file](https://vale.sh/docs/vale-ini), for example `~/.config/vale/.vale.ini`:
+create a [configuration file](https://vale.sh/docs/vale-ini), for example `~/.config/vale/.vale.ini`
 
-    ```ini
-    StylesPath = .
-    MinAlertLevel = suggestion
-    Packages = alex
+```ini
+StylesPath = .
+MinAlertLevel = suggestion
+Packages = alex
 
-    [*.{md}]
-    BasedOnStyles = Vale, alex
-    ```
+[*.{md}]
+BasedOnStyles = Vale, alex
+```
 
-- run `vale sync` to download and install packages.
+and run `vale sync` to download and install packages.
 
 #### SQL
 
-You need to install: [sqruff](https://github.com/quarylabs/sqruff).
+You should install: [sqruff](https://github.com/quarylabs/sqruff).
 
 **Linux**:
 
@@ -287,7 +287,7 @@ indented_joins = True
 
 #### HTTP
 
-You need to install: [curl](https://curl.se/download.html).
+You should install: [curl](https://curl.se/download.html).
 
 **Linux (Ubuntu/Debian)**:
 
@@ -303,7 +303,7 @@ brew install curl
 
 ### Rust dependencies
 
-You need to install: rust-analyzer, rustfmt, [cargo-nextest](https://github.com/nextest-rs/nextest/tree/main/cargo-nextest).
+You should install: rust-analyzer, rustfmt, [cargo-nextest](https://github.com/nextest-rs/nextest/tree/main/cargo-nextest).
 
 **Unix (Linux/Mac)**:
 
@@ -316,7 +316,7 @@ cargo binstall cargo-nextest --secure
 
 ### Go dependencies
 
-You need to install: gopls, [golangci-lint](https://golangci-lint.run/docs/welcome/install/#local-installation), goimports, [golines](https://github.com/segmentio/golines/releases), [delve](https://github.com/go-delve/delve/tree/master/Documentation/installation).
+You should install: gopls, [golangci-lint](https://golangci-lint.run/docs/welcome/install/#local-installation), goimports, [golines](https://github.com/segmentio/golines/releases), [delve](https://github.com/go-delve/delve/tree/master/Documentation/installation).
 
 ```bash
 # install from source (or you can choose your installation method from the link above)
@@ -806,7 +806,7 @@ linters:
 
 ### PHP dependencies
 
-You need to install [vscode-php-debug](https://github.com/xdebug/vscode-php-debug).
+You should install [vscode-php-debug](https://github.com/xdebug/vscode-php-debug).
 
 1. Open nvim
 2. Run the command `:MasonInstall php-debug-adapter`
