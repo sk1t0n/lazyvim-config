@@ -4,7 +4,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 
 **Plugins that can install and setup**:
 
-1. General: [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig), [conform.nvim](https://github.com/stevearc/conform.nvim), [neotest](https://github.com/nvim-neotest/neotest), [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter), [nvim-lint](https://github.com/mfussenegger/nvim-lint), [nvim-dap](https://github.com/mfussenegger/nvim-dap), [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui), [actions-preview.nvim](https://github.com/aznhe21/actions-preview.nvim), [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim), [treesj](https://github.com/Wansmer/treesj), [garbage-day.nvim](https://github.com/Zeioth/garbage-day.nvim), [smartcolumn.nvim](https://github.com/m4xshen/smartcolumn.nvim), [focus.nvim](https://github.com/nvim-focus/focus.nvim), [better-escape.nvim](https://github.com/max397574/better-escape.nvim), [zen-mode.nvim](https://github.com/folke/zen-mode.nvim), [timerly](https://github.com/nvzone/timerly)
+1. General: [mason-lspconfig.nvim](https://github.com/mason-org/mason-lspconfig.nvim), [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig), [conform.nvim](https://github.com/stevearc/conform.nvim), [neotest](https://github.com/nvim-neotest/neotest), [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter), [nvim-lint](https://github.com/mfussenegger/nvim-lint), [nvim-dap](https://github.com/mfussenegger/nvim-dap), [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui), [actions-preview.nvim](https://github.com/aznhe21/actions-preview.nvim), [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim), [treesj](https://github.com/Wansmer/treesj), [garbage-day.nvim](https://github.com/Zeioth/garbage-day.nvim), [smartcolumn.nvim](https://github.com/m4xshen/smartcolumn.nvim), [focus.nvim](https://github.com/nvim-focus/focus.nvim), [better-escape.nvim](https://github.com/max397574/better-escape.nvim), [zen-mode.nvim](https://github.com/folke/zen-mode.nvim), [timerly](https://github.com/nvzone/timerly)
 2. AI: [windsurf.nvim](https://github.com/Exafunction/windsurf.nvim) or [copilot.vim](https://github.com/github/copilot.vim) + [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim)
 3. Others: [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim), [vim-dadbod-ui](https://github.com/kristijanhusak/vim-dadbod-ui), [kulala.nvim](https://github.com/mistweaverco/kulala.nvim)
 4. Frontend: [neotest-jest](https://github.com/nvim-neotest/neotest-jest), [nvim-highlight-colors](https://github.com/brenoprata10/nvim-highlight-colors)
@@ -94,6 +94,7 @@ make generate
 
 - [Requirements for mason.nvim](https://github.com/mason-org/mason.nvim#requirements)
 - [C compiler for nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter#requirements)
+- [Python for mdformat](https://www.python.org/downloads/)
 - [Node.js](https://nodejs.org/en/download)
 
 You also need to install: [lazygit](https://github.com/jesseduffield/lazygit?tab=readme-ov-file#installation), [ripgrep](https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation).
@@ -185,6 +186,28 @@ sudo apt install pipx
 pipx install mdformat
 pipx inject mdformat mdformat-gfm
 sudo snap install vale # for Ubuntu
+```
+
+To configure mdformat, you need to create a [configuration file](https://mdformat.readthedocs.io/en/stable/users/configuration_file.html) in the root folder of your project.
+
+Example `.mdformat.toml`:
+
+```toml
+# This file shows the default values and is equivalent to having
+# no configuration file at all. Change the values for non-default
+# behavior.
+wrap = "keep"         # options: {"keep", "no", INTEGER}
+number = false        # options: {false, true}
+end_of_line = "lf"    # options: {"lf", "crlf", "keep"}
+validate = true       # options: {false, true}
+
+# Python 3.13+ only:
+exclude = [
+    # recursively exclude a directory at any level
+    "**/node_modules/**",
+    # exclude all files that are not suffixed .md
+    "**/?", "**/??", "**/???", "**/*[!.]??", "**/*[!m]?", "**/*[!d]",
+]
 ```
 
 Before using vale, you need
@@ -744,16 +767,21 @@ linters:
 
 ### PHP dependencies
 
-You need to install [blade-formatter](https://github.com/shufo/blade-formatter).
-
-```bash
-npm install -g blade-formatter
-```
-
 You need to install [vscode-php-debug](https://github.com/xdebug/vscode-php-debug).
 
 1. Open nvim
 2. Run the command `:MasonInstall php-debug-adapter`
+3. Install [Xdebug](https://xdebug.org/docs/install)
+4. [Configure PHP to use Xdebug](https://xdebug.org/docs/install#configure-php)
+
+    Simple `xdebug.ini`:
+
+    ```ini
+    zend_extension=xdebug.so
+
+    xdebug.mode = debug
+    xdebug.start_with_request = yes
+    ```
 
 To configure phpstan, you need to create a [configuration file](https://phpstan.org/config-reference) in the root folder of your project.
 
@@ -810,6 +838,38 @@ return $config
         'phpdoc_to_comment' => ['ignored_tags' => ['var']],
         'not_operator_with_successor_space' => true,
     ])->setFinder($finder);
+```
+
+To format Blade templates you need to install [blade-formatter](https://github.com/shufo/blade-formatter).
+
+```bash
+npm install -g blade-formatter
+```
+
+To configure blade-formatter, you need to create a [configuration file](https://github.com/shufo/blade-formatter#configuring-blade-formatter) in the root folder of your project.
+
+Example `.bladeformatterrc.json`:
+
+```json
+{
+  "indentSize": 4,
+  "wrapAttributes": "auto",
+  "wrapLineLength": 120,
+  "wrapAttributesMinAttrs": 2,
+  "indentInnerHtml": true,
+  "endWithNewLine": true,
+  "endOfLine": "LF",
+  "useTabs": false,
+  "sortTailwindcssClasses": true,
+  "sortHtmlAttributes": "none",
+  "noMultipleEmptyLines": false,
+  "noPhpSyntaxCheck": false,
+  "noSingleQuote": false,
+  "noTrailingCommaPhp": false,
+  "extraLiners": [],
+  "componentPrefix": ["x-", "livewire:"],
+  "phpVersion": "8.4"
+}
 ```
 
 ## Keymaps
