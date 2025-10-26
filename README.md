@@ -23,7 +23,6 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 - [Install dependencies for selected languages](#install-dependencies-for-selected-languages)
   - [Frontend dependencies](#frontend-dependencies)
     - [HTML](#html)
-    - [CSS](#css)
     - [JavaScript, TypeScript](#javascript-typescript)
   - [Others dependencies](#others-dependencies)
     - [YAML](#yaml)
@@ -114,10 +113,6 @@ sudo apt install lazygit ripgrep
 
 To enable formatting, you need to set the `html.formatter.enabled` parameter to `true`. [See the example](#example_biome_config) for details.
 
-#### CSS
-
-To enable formatting, you need to set the `css.formatter.enabled` parameter to `true`. [See the example](#example_biome_config) for details.
-
 #### JavaScript, TypeScript
 
 You need to install [vscode-js-debug](https://github.com/microsoft/vscode-js-debug).
@@ -131,6 +126,19 @@ To configure biome, you need to create a [configuration file](https://biomejs.de
 
 ```json
 {
+  "html": {
+    "formatter": {
+      "enabled": true,
+      "indentStyle": "space",
+      "indentWidth": 2
+    }
+  },
+  "css": {
+    "formatter": {
+      "indentStyle": "space",
+      "indentWidth": 2
+    }
+  },
   "javascript": {
     "formatter": {
       "indentStyle": "space",
@@ -141,20 +149,6 @@ To configure biome, you need to create a [configuration file](https://biomejs.de
   },
   "json": {
     "formatter": {
-      "indentStyle": "space",
-      "indentWidth": 2
-    }
-  },
-  "html": {
-    "formatter": {
-      "enabled": true,
-      "indentStyle": "space",
-      "indentWidth": 2
-    }
-  },
-  "css": {
-    "formatter": {
-      "enabled": true,
       "indentStyle": "space",
       "indentWidth": 2
     }
