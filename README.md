@@ -56,7 +56,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 
 ## Requirements
 
-- Unix (Linux/Mac). If all plugins and their dependencies support Windows, you can try the following steps:
+- Unix (Linux/Mac). If all the plugins you need and their dependencies support Windows, you can try the following steps:
   1. install, for example, [Cygwin](https://cygwin.com/index.html) to work with bash, make, echo, printf, read, mkdir, curl, gcc etc;
   2. replace all paths in the script `scripts/generate_lua_files.sh`. Paths to replace:
      - `~/.config/nvim` :arrow_right: `~/AppData/Local/nvim`,
