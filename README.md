@@ -329,7 +329,8 @@ go install github.com/go-delve/delve/cmd/dlv@latest
 
 To configure golangci-lint, you need to create a [configuration file](https://golangci-lint.run/docs/configuration/file/) in the root folder of your project.
 
-[Golden configuration](https://gist.github.com/maratori/47a4d00457a92aa426dbd48a18776322) `.golangci.yml`:
+<details>
+<summary>Golden configuration <i>.golangci.yml</i></summary>
 
 ```yaml
 # This file is licensed under the terms of the MIT license https://opensource.org/license/mit
@@ -803,6 +804,8 @@ linters:
           - noctx
           - wrapcheck
 ```
+
+</details>
 
 ### PHP dependencies
 
