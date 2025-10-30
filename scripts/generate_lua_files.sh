@@ -27,7 +27,8 @@ if [[ "$need_frontend" == "y" || "$need_frontend" == "Y" ]]; then
         '"biome",'
         '"ts_ls",'
     )
-    frontend_treesitter='"html",
+    frontend_treesitter='
+    "html",
     "css",
     "json",
     "jsdoc",
@@ -267,8 +268,8 @@ lspconfig.gopls.setup({
     "gotmpl",
     "gowork",'
     treesitter_gotmpl_injections='((text) @injection.content
- (#set! injection.language "html")
- (#set! injection.combined))'
+  (#set! injection.combined)
+  (#set! injection.language html))'
     mkdir -p ~/.config/nvim/queries/gotmpl
     echo "$treesitter_gotmpl_injections" > ~/.config/nvim/queries/gotmpl/injections.scm
     go_lint='
@@ -388,42 +389,159 @@ if [[ "$need_php" == "y" || "$need_php" == "Y" ]]; then
     "phpdoc",
     "blade",'
     mkdir -p ~/.config/nvim/queries/blade
-    treesitter_blade_folds='((directive_start) @start
-    (directive_end) @end.after
-    (#set! role block))
-
-((bracket_start) @start
-    (bracket_end) @end
-    (#set! role block))'
+    treesitter_blade_folds='[
+  (authorization)
+  (conditional)
+  (envoy)
+  (fragment)
+  (livewire)
+  (loop)
+  (once)
+  (php_statement)
+  (section)
+  (stack)
+  (switch)
+  (verbatim)
+] @fold'
     echo "$treesitter_blade_folds" > ~/.config/nvim/queries/blade/folds.scm
-    treesitter_blade_highlights='(directive) @function
-(directive_start) @function
-(directive_end) @function
-(comment) @comment
-((parameter) @include (#set! "priority" 110))
-((php_only) @include (#set! "priority" 110))
-((bracket_start) @function (#set! "priority" 120))
-((bracket_end) @function (#set! "priority" 120))
-(keyword) @function'
+    treesitter_blade_highlights='; inherits: https://github.com/tree-sitter/tree-sitter-html
+; grammar:  https://github.com/EmranMR/tree-sitter-blade/blob/main/main/grammar.ts
+
+([
+  (directive_start)
+  (directive)
+  (directive_end)
+] @tag
+  (#set! priority 101))
+
+([
+  (bracket_start)
+  (bracket_end)
+] @tag.delimiter
+  (#set! priority 101))
+
+((comment) @comment @spell
+  (#set! priority 101))'
     echo "$treesitter_blade_highlights" > ~/.config/nvim/queries/blade/highlights.scm
     treesitter_blade_injections='((text) @injection.content
-    (#not-has-ancestor? @injection.content "envoy")
-    (#set! injection.combined)
-    (#set! injection.language php))
-
-((comment) @injection.content
-    (#set! injection.language comment))
+  (#set! injection.combined)
+  (#set! injection.language html))
 
 ((text) @injection.content
-    (#has-ancestor? @injection.content "envoy")
-    (#set! injection.combined)
-    (#set! injection.language bash))
+  (#has-ancestor? @injection.content "envoy")
+  (#set! injection.language bash))
+
+((text) @injection.content
+  (#not-has-ancestor? @injection.content "envoy")
+  (#set! injection.combined)
+  (#set! injection.language php))
 
 ((php_only) @injection.content
-    (#set! injection.language php_only))
+  (#set! injection.combined)
+  (#set! injection.language php_only))
+
 ((parameter) @injection.content
-    (#set! injection.language php_only))'
+  (#set! injection.language php_only))'
     echo "$treesitter_blade_injections" > ~/.config/nvim/queries/blade/injections.scm
+    mkdir -p ~/.config/nvim/queries/php_only
+    treesitter_php_injections="; Laravel: SQL Queries
+[
+  ; DB::select('select * from users')
+  (scoped_call_expression
+    name: (name) @query_call_name (#match? @query_call_name \"^(select|scalar|insert|update|delete|statement)$\")
+    arguments: (arguments
+      (argument
+        [(string
+           (string_content) @injection.content
+           (#set! injection.language sql)
+           (#set! injection.include-children))
+         (encapsed_string
+           (string_content) @injection.content
+           (#set! injection.language sql)
+           (#set! injection.include-children))
+        ]
+      )
+    )
+  )
+  ; DB::connection()->select('select * from users')
+  (member_call_expression
+    name: (name) @query_call_name (#match? @query_call_name \"^(select|scalar|insert|update|delete|statement)$\")
+    arguments: (arguments
+      (argument
+        [(string
+           (string_content) @injection.content
+           (#set! injection.language sql)
+           (#set! injection.include-children))
+         (encapsed_string
+           (string_content) @injection.content
+           (#set! injection.language sql)
+           (#set! injection.include-children))
+        ]
+      )
+    )
+  )
+]"
+    echo "$treesitter_php_injections" > ~/.config/nvim/queries/php_only/injections.scm
+    mkdir -p ~/.config/nvim/queries/html
+    read -r -d '' treesitter_html_injections << 'EOM'
+; Livewire attributes
+; <div wire:click="baz++">
+(attribute
+  (attribute_name) @_attr
+    (#any-of? @_attr
+      "wire:model"
+      "wire:click"
+      "wire:stream"
+      "wire:text"
+      "wire:show")
+  (quoted_attribute_value
+    (attribute_value) @injection.content)
+  (#set! injection.language javascript))
+
+; AlpineJS attributes
+; <div x-data="{ foo: 'bar' }" x-init="baz()">
+(attribute
+  (attribute_name) @_attr
+    (#match? @_attr "^x-[a-z]+")
+    (#not-any-of? @_attr "x-teleport" "x-ref" "x-transition")
+  (quoted_attribute_value
+    (attribute_value) @injection.content)
+  (#set! injection.language javascript))
+; <div :foo="bar" @click="baz()">
+(attribute
+  (attribute_name) @_attr
+    (#match? @_attr "^[:@][a-z]+")
+  (quoted_attribute_value
+    (attribute_value) @injection.content)
+  (#set! injection.language javascript))
+
+; Blade escaped JS attributes
+; <x-foo ::bar="baz" />
+(element
+  (_
+    (tag_name) @_tag
+      (#match? @_tag "^x-[a-z]+")
+  (attribute
+    (attribute_name) @_attr
+      (#match? @_attr "^::[a-z]+")
+    (quoted_attribute_value
+      (attribute_value) @injection.content)
+    (#set! injection.language javascript))))
+
+; Blade PHP attributes
+; <x-foo :bar="$baz" />
+(element
+  (_
+    (tag_name) @_tag
+      (#match? @_tag "^x-[a-z]+")
+    (attribute
+      (attribute_name) @_attr
+        (#match? @_attr "^:[a-z]+")
+      (quoted_attribute_value
+        (attribute_value) @injection.content)
+      (#set! injection.language php_only))))
+EOM
+    echo "$treesitter_html_injections" > ~/.config/nvim/queries/html/injections.scm
     php_lint='
   php = { "phpstan" },'
     php_dap='
@@ -659,7 +777,7 @@ echo "$config_lspconfig_file" > ~/.config/nvim/lua/config/plugins/lspconfig.lua
 generate_treesitter() {
 config_treesitter_file="require(\"nvim-treesitter.configs\").setup({
   ensure_installed = {
-    ${frontend_treesitter}${others_treesitter}${rust_treesitter}${go_treesitter}${php_treesitter}
+    \"diff\",${frontend_treesitter}${others_treesitter}${rust_treesitter}${go_treesitter}${php_treesitter}
   },
   highlight = {
     enable = true,
@@ -930,6 +1048,14 @@ EOM
 echo "$keymaps_file" > ~/.config/nvim/lua/config/keymaps.lua
 }
 
+generate_options() {
+options_file='local opt = vim.opt
+
+opt.foldmethod = "expr"
+opt.foldexpr = "nvim_treesitter#foldexpr()"'
+echo "$options_file" > ~/.config/nvim/lua/config/options.lua
+}
+
 main() {
 generate_frontend
 generate_others
@@ -948,6 +1074,7 @@ generate_lint
 generate_snippets
 generate_dap
 generate_keymaps
+generate_options
 }
 
 main
