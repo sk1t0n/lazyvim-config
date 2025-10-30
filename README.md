@@ -102,20 +102,20 @@ make generate
 - [Python for mdformat](https://www.python.org/downloads/)
 - [Node.js](https://nodejs.org/en/download)
 
-You also should install: [lazygit](https://github.com/jesseduffield/lazygit?tab=readme-ov-file#installation), [ripgrep](https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation).
+You also should install: [lazygit](https://github.com/jesseduffield/lazygit?tab=readme-ov-file#installation), [ripgrep](https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation), [fdfind](https://github.com/sharkdp/fd#installation), [fzf](https://github.com/junegunn/fzf#installation).
 
 **Linux (Ubuntu/Debian)**:
 
 ```bash
 sudo apt update
-sudo apt install lazygit ripgrep
+sudo apt install lazygit ripgrep fd-find fzf
 ```
 
 **Mac**:
 
 ```bash
 brew update
-brew install lazygit ripgrep
+brew install lazygit ripgrep fd-find fzf
 ```
 
 ## Install dependencies for selected languages
