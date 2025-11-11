@@ -63,7 +63,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
      - `~/.local/share/nvim` :arrow_right: `~/AppData/Local/nvim-data`.
 - [Neovim](https://github.com/neovim/neovim/blob/master/INSTALL.md)
 - [Git](https://git-scm.com/downloads)
-- [Nerd Font](https://www.nerdfonts.com/font-downloads) - for to support icons in fonts (example configuration file for [WezTerm](https://github.com/sk1t0n/dotfiles/blob/master/home/anton/.wezterm.lua#L13), [mappings](https://github.com/sk1t0n/nvchad-config#mappings) for this WezTerm configuration)
+- [Nerd Font](https://www.nerdfonts.com/font-downloads) - for to support icons in fonts (example configuration file for [WezTerm](https://github.com/sk1t0n/dotfiles/blob/master/home/anton/.wezterm.lua#L13), [mappings](https://github.com/sk1t0n/dotfiles#mappings-weztermlua) for this WezTerm configuration)
 - [bash](https://www.gnu.org/software/bash/)
 - [make](https://www.gnu.org/software/make/)
 
