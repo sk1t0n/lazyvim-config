@@ -1052,7 +1052,8 @@ generate_options() {
 options_file='local opt = vim.opt
 
 opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"'
+opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.tabstop = 4'
 echo "$options_file" > ~/.config/nvim/lua/config/options.lua
 }
 
