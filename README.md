@@ -1,6 +1,6 @@
 # lazyvim_config
 
-Scripts for installing LazyVim and generating Lua files. Users can select the programming languages ​​for which Lua files will be generated. This allows you to install and configure only plugins for the languages ​​you need. Supported programming, markup, and stylesheet languages: HTML with Emmet, CSS with Tailwind, JSON, YAML, Markdown, SQL, HTTP, JavaScript/TypeScript with React, Rust, Go, PHP with Laravel.
+Scripts for installing LazyVim and generating Lua files. Users can select the programming languages ​​for which Lua files will be generated. This allows you to install and configure only plugins for the languages ​​you need. Supported programming, markup, and stylesheet languages: HTML with Emmet, CSS with Tailwind, JSON, YAML, Markdown, SQL, HTTP, JavaScript/TypeScript with React, Rust, Zig, Go, PHP with Laravel.
 
 **Plugins that can install and setup**:
 
@@ -30,6 +30,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
     - [SQL](#sql)
     - [HTTP](#http)
   - [Rust dependencies](#rust-dependencies)
+  - [Zig dependencies](#zig-dependencies)
   - [Go dependencies](#go-dependencies)
   - [PHP dependencies](#php-dependencies)
 - [Keymaps](#keymaps)
@@ -313,6 +314,10 @@ rustup component add rustfmt
 curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash # or for Mac: brew install cargo-binstall
 cargo binstall cargo-nextest --secure
 ```
+
+### Zig dependencies
+
+You should install: [ziggy](https://github.com/kristoff-it/ziggy/releases/).
 
 ### Go dependencies
 

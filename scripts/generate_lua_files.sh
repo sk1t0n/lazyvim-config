@@ -223,6 +223,25 @@ else
 fi
 }
 
+generate_zig() {
+read -p "Set up Zig? (y/n, default: n): " -i "n" -e need_zig
+if [[ "$need_zig" == "y" || "$need_zig" == "Y" ]]; then
+    zig_conform='
+    zig = { "zigfmt" },
+    ziggy = { "ziggy" },'
+    zig_lsp=(
+        '"zls",'
+    )
+    zig_treesitter='
+    "zig",
+    "ziggy",'
+else
+    zig_conform=""
+    zig_lsp=()
+    zig_treesitter=""
+fi
+}
+
 generate_go() {
 read -p "Install Go plugins? (y/n, default: n): " -i "n" -e need_go
 if [[ "$need_go" == "y" || "$need_go" == "Y" ]]; then
@@ -370,8 +389,8 @@ if [[ "$need_php" == "y" || "$need_php" == "Y" ]]; then
                 close_tag_on_complete = true,
               },
             },
-          }
-        }
+          },
+        },
       })
     end,
   },'
@@ -612,7 +631,7 @@ plugins_init_file_begin='return {
       require("mason-lspconfig").setup({
         ensure_installed = {
 '
-for lsp in "${frontend_lsp[@]}" "${others_lsp[@]}" "${go_lsp[@]}" "${php_lsp[@]}"; do
+for lsp in "${frontend_lsp[@]}" "${others_lsp[@]}" "${zig_lsp[@]}" "${go_lsp[@]}" "${php_lsp[@]}"; do
     plugins_init_file_begin+="          $lsp"$'\n'
 done
 plugins_init_file_begin+='        },
@@ -761,7 +780,7 @@ echo "${plugins_init_file_begin}${plugins_init_file}" > ~/.config/nvim/lua/plugi
 generate_conform() {
 config_conform_file="return {
   formatters_by_ft = {
-    ${frontend_conform}${others_conform}${rust_conform}${go_conform}${php_conform}
+    ${frontend_conform}${others_conform}${rust_conform}${zig_conform}${go_conform}${php_conform}
   },
 }"
 echo "$config_conform_file" > ~/.config/nvim/lua/config/plugins/conform.lua
@@ -777,7 +796,7 @@ echo "$config_lspconfig_file" > ~/.config/nvim/lua/config/plugins/lspconfig.lua
 generate_treesitter() {
 config_treesitter_file="require(\"nvim-treesitter.configs\").setup({
   ensure_installed = {
-    \"diff\",${frontend_treesitter}${others_treesitter}${rust_treesitter}${go_treesitter}${php_treesitter}
+    \"diff\",${frontend_treesitter}${others_treesitter}${rust_treesitter}${zig_treesitter}${go_treesitter}${php_treesitter}
   },
   highlight = {
     enable = true,
@@ -1061,6 +1080,7 @@ main() {
 generate_frontend
 generate_others
 generate_rust
+generate_zig
 generate_go
 generate_php
 generate_ai
