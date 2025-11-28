@@ -170,10 +170,10 @@ if [[ "$need_others" == "y" || "$need_others" == "Y" ]]; then
     markdown = { "mdformat" },
     sql = { "sqruff" },'
     others_lsp=(
-        '"yamlls",
-          "harper_ls",
-          "marksman",
-          "sqls",'
+        '"yamlls",'
+        '"harper_ls",'
+        '"marksman",'
+        '"sqls",'
     )
     others_treesitter='
     "yaml",
@@ -832,7 +832,6 @@ echo "$config_lint_file" > ~/.config/nvim/lua/config/plugins/lint.lua
 }
 
 generate_snippets() {
-mkdir -p ~/.config/nvim/snippets
 snippets_package_file="{
   \"name\": \"snippets\",
   \"contributes\": {
@@ -1080,6 +1079,9 @@ echo "$options_file" > ~/.config/nvim/lua/config/options.lua
 }
 
 main() {
+mkdir ~/.config/nvim/lua/config/plugins
+mkdir ~/.config/nvim/snippets
+
 generate_frontend
 generate_others
 generate_rust
@@ -1088,7 +1090,6 @@ generate_go
 generate_php
 generate_ai
 
-mkdir -p ~/.config/nvim/lua/config/plugins
 generate_plugins
 generate_conform
 generate_lspconfig
