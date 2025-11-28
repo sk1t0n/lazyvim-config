@@ -304,12 +304,13 @@ brew install curl
 
 ### Rust dependencies
 
-You should install: rust-analyzer, rustfmt, [cargo-nextest](https://github.com/nextest-rs/nextest/tree/main/cargo-nextest).
+You should install: rust-analyzer, clippy, rustfmt, [cargo-nextest](https://github.com/nextest-rs/nextest/tree/main/cargo-nextest).
 
 **Unix (Linux/Mac)**:
 
 ```bash
 rustup component add rust-analyzer
+rustup component add clippy
 rustup component add rustfmt
 curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash # or for Mac: brew install cargo-binstall
 cargo binstall cargo-nextest --secure
