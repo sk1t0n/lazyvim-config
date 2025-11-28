@@ -203,7 +203,8 @@ You should install: [doctoc](https://github.com/thlorenz/doctoc), [mdformat](htt
 npm install -g doctoc
 sudo apt install pipx
 pipx install mdformat
-pipx inject mdformat mdformat-gfm
+pipx inject mdformat mdformat-gfm mdformat-frontmatter mdformat-footnote mdformat-gfm-alerts
+pipx inject mdformat mdformat-toc
 npm install markdownlint-cli2 --global
 sudo snap install vale # for Ubuntu
 ```
@@ -214,7 +215,9 @@ sudo snap install vale # for Ubuntu
 npm install -g doctoc
 brew install pipx
 pipx install mdformat
-pipx inject mdformat mdformat-gfm
+pipx inject mdformat mdformat-gfm mdformat-frontmatter mdformat-footnote mdformat-gfm-alerts
+pipx inject mdformat mdformat-toc
+npm install markdownlint-cli2 --global
 brew install vale
 ```
 
@@ -223,21 +226,40 @@ To configure mdformat, you need to create a [configuration file](https://mdforma
 Example `.mdformat.toml`:
 
 ```toml
-# This file shows the default values and is equivalent to having
-# no configuration file at all. Change the values for non-default
-# behavior.
-wrap = "keep"         # options: {"keep", "no", INTEGER}
-number = false        # options: {false, true}
-end_of_line = "lf"    # options: {"lf", "crlf", "keep"}
-validate = true       # options: {false, true}
+wrap = "keep" # options: {"keep", "no", INTEGER}
+number = true # options: {false, true}
+end_of_line = "lf" # options: {"lf", "crlf", "keep"}
+validate = true # options: {false, true}
+extensions = [ # options: a list of enabled extensions (default: all installed are enabled)
+    "gfm",
+    "toc",
+]
 
 # Python 3.13+ only:
-exclude = [
-    # recursively exclude a directory at any level
-    "**/node_modules/**",
-    # exclude all files that are not suffixed .md
-    "**/?", "**/??", "**/???", "**/*[!.]??", "**/*[!m]?", "**/*[!d]",
+exclude = [ # options: a list of file path pattern strings
+    "**/node_modules/**", # recursively exclude a directory at any level
 ]
+```
+
+To configure markdownlint, you need to create a configuration file in the root folder of your project.
+
+Example `.markdownlint.yaml`:
+
+```yaml
+# Example markdownlint configuration with all properties set to their default value
+# https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.yaml
+
+default: true  # Start with all default rules
+
+MD013:  # Line length rule
+  line_length: 120  # Allow lines up to 120 characters
+
+MD025:  # First heading should be a top-level heading
+  front_matter_title: ""  # Allow front-matter titles (e.g., Jekyll/Hugo)
+
+MD026: false  # Disable "Trailing punctuation in headings" rule
+
+MD033: false  # Allow inline HTML (e.g., <div>, <br>) inside Markdown files
 ```
 
 Before using vale, you must
