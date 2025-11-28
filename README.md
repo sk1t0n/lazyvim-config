@@ -951,14 +951,15 @@ Example `.bladeformatterrc.json`:
 
 | № | Action  | Default Key  |  Custom Key  | Description          |    Mode     |
 |:-:|---------|:------------:|:------------:|----------------------|:-----------:|
-| 1 | Replace |   `<A-j>`    |  `<A-Down>`  | Move Down            | **n, i, v** |
-| 2 | Replace |   `<A-k>`    |   `<A-Up>`   | Move Up              | **n, i, v** |
-| 3 | Add     |              |   `<C-/>`    | Toggle comment line  |  **n, v**   |
-| 4 | Replace |   `<C-/>`    |   `<C-`>`    | Terminal (Root Dir)  |    **n**    |
-| 5 | Replace |   `<C-/>`    |   `<C-`>`    | Hide Terminal        |    **t**    |
-| 6 | Add     |              |   `<C-x>`    | Escape terminal mode |    **t**    |
-| 7 | Replace | `<leader>-`  | `<leader>\|` | Split Window Below   |    **n**    |
-| 8 | Replace | `<leader>\|` | `<leader>\`  | Split Window Right   |    **n**    |
+| 1 | Add     |              | `<leader>h`  | WhichKey             |    **n**    |
+| 2 | Replace |   `<A-j>`    |  `<A-Down>`  | Move Down            | **n, i, v** |
+| 3 | Replace |   `<A-k>`    |   `<A-Up>`   | Move Up              | **n, i, v** |
+| 4 | Add     |              |   `<C-/>`    | Toggle comment line  |  **n, v**   |
+| 5 | Replace |   `<C-/>`    |   `<C-`>`    | Terminal (Root Dir)  |    **n**    |
+| 6 | Replace |   `<C-/>`    |   `<C-`>`    | Hide Terminal        |    **t**    |
+| 7 | Add     |              |   `<C-x>`    | Escape terminal mode |    **t**    |
+| 8 | Replace | `<leader>-`  | `<leader>\|` | Split Window Below   |    **n**    |
+| 9 | Replace | `<leader>\|` | `<leader>\`  | Split Window Right   |    **n**    |
 
 ### LSP
 

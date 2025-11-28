@@ -869,6 +869,9 @@ local del = vim.keymap.del
 -- Override keymaps
 -- https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 
+-- Keymaps
+set("n", "<leader>h", "<cmd>WhichKey<cr>", { desc = "WhichKey" })
+
 -- Move Lines
 del("n", "<A-j>")
 set("n", "<A-Down>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Down" })
