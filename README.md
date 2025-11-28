@@ -195,7 +195,7 @@ formatter:
 
 #### Markdown
 
-You should install: [doctoc](https://github.com/thlorenz/doctoc), [mdformat](https://github.com/hukkin/mdformat), [vale](https://vale.sh).
+You should install: [doctoc](https://github.com/thlorenz/doctoc), [mdformat](https://github.com/hukkin/mdformat), [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2), [vale](https://vale.sh).
 
 **Linux (Ubuntu/Debian)**:
 
@@ -204,6 +204,7 @@ npm install -g doctoc
 sudo apt install pipx
 pipx install mdformat
 pipx inject mdformat mdformat-gfm
+npm install markdownlint-cli2 --global
 sudo snap install vale # for Ubuntu
 ```
 
