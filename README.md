@@ -841,18 +841,21 @@ linters:
 You should install [vscode-php-debug](https://github.com/xdebug/vscode-php-debug).
 
 1. Open nvim
+
 2. Run the command `:MasonInstall php-debug-adapter`
+
 3. Install [Xdebug](https://xdebug.org/docs/install)
+
 4. [Configure PHP to use Xdebug](https://xdebug.org/docs/install#configure-php)
 
-    Simple `xdebug.ini`:
+   Simple `xdebug.ini`:
 
-    ```ini
-    zend_extension=xdebug.so
+   ```ini
+   zend_extension=xdebug.so
 
-    xdebug.mode = debug
-    xdebug.start_with_request = yes
-    ```
+   xdebug.mode = debug
+   xdebug.start_with_request = yes
+   ```
 
 To configure phpstan, you need to create a [configuration file](https://phpstan.org/config-reference) in the root folder of your project.
 
@@ -949,22 +952,22 @@ Example `.bladeformatterrc.json`:
 
 ### General
 
-| № | Action  | Default Key  |  Custom Key  | Description          |    Mode     |
-|:-:|---------|:------------:|:------------:|----------------------|:-----------:|
-| 1 | Add     |              | `<leader>h`  | WhichKey             |    **n**    |
-| 2 | Replace |   `<A-j>`    |  `<A-Down>`  | Move Down            | **n, i, v** |
-| 3 | Replace |   `<A-k>`    |   `<A-Up>`   | Move Up              | **n, i, v** |
-| 4 | Add     |              |   `<C-/>`    | Toggle comment line  |  **n, v**   |
-| 5 | Replace |   `<C-/>`    |   `<C-`>`    | Terminal (Root Dir)  |    **n**    |
-| 6 | Replace |   `<C-/>`    |   `<C-`>`    | Hide Terminal        |    **t**    |
-| 7 | Add     |              |   `<C-x>`    | Escape terminal mode |    **t**    |
-| 8 | Replace | `<leader>-`  | `<leader>\|` | Split Window Below   |    **n**    |
-| 9 | Replace | `<leader>\|` | `<leader>\`  | Split Window Right   |    **n**    |
+|  №  | Action  | Default Key  |  Custom Key  | Description          |    Mode     |
+| :-: | ------- | :----------: | :----------: | -------------------- | :---------: |
+|  1  | Add     |              | `<leader>h`  | WhichKey             |    **n**    |
+|  2  | Replace |   `<A-j>`    |  `<A-Down>`  | Move Down            | **n, i, v** |
+|  3  | Replace |   `<A-k>`    |   `<A-Up>`   | Move Up              | **n, i, v** |
+|  4  | Add     |              |   `<C-/>`    | Toggle comment line  |  **n, v**   |
+|  5  | Replace |   `<C-/>`    |   `<C-`>`    | Terminal (Root Dir)  |    **n**    |
+|  6  | Replace |   `<C-/>`    |   `<C-`>`    | Hide Terminal        |    **t**    |
+|  7  | Add     |              |   `<C-x>`    | Escape terminal mode |    **t**    |
+|  8  | Replace | `<leader>-`  | `<leader>\|` | Split Window Below   |    **n**    |
+|  9  | Replace | `<leader>\|` | `<leader>\`  | Split Window Right   |    **n**    |
 
 ### LSP
 
 |     Key      | Description         |     Mode     |
-|:------------:|---------------------|:------------:|
+| :----------: | ------------------- | :----------: |
 |      K       | Hover               |    **n**     |
 |      gK      | Signature Help      |    **n**     |
 |      gD      | Goto Declaration    |    **n**     |
@@ -977,26 +980,26 @@ Example `.bladeformatterrc.json`:
 ### refactoring.nvim
 
 |     Key      | Description     |     Mode     |
-|:------------:|-----------------|:------------:|
+| :----------: | --------------- | :----------: |
 | `<leader>cR` | Select Refactor | **n**, **v** |
 
 ### treesj
 
 |     Key      | Description                      | Mode  |
-|:------------:|----------------------------------|:-----:|
+| :----------: | -------------------------------- | :---: |
 | `<leader>cb` | Splitting/joining blocks of code | **n** |
 
 ### bufferline.nvim
 
 |    Key    | Description | Mode  |
-|:---------:|-------------|:-----:|
+| :-------: | ----------- | :---: |
 | `<S-Tab>` | Prev Buffer | **n** |
 |  `<Tab>`  | Next Buffer | **n** |
 
 ### neotest
 
 |     Key      | Description                   | Mode  |
-|:------------:|-------------------------------|:-----:|
+| :----------: | ----------------------------- | :---: |
 | `<leader>t`  | +test                         | **n** |
 | `<leader>tl` | Run Last (Neotest)            | **n** |
 | `<leader>to` | Show Output (Neotest)         | **n** |
@@ -1011,7 +1014,7 @@ Example `.bladeformatterrc.json`:
 ### nvim-dap
 
 |     Key      | Description             | Mode  |
-|:------------:|-------------------------|:-----:|
+| :----------: | ----------------------- | :---: |
 | `<leader>da` | Run with Args           | **n** |
 | `<leader>db` | Toggle Breakpoint       | **n** |
 | `<leader>dB` | Breakpoint Condition    | **n** |
@@ -1033,33 +1036,33 @@ Example `.bladeformatterrc.json`:
 ### nvim-dap-ui
 
 |     Key      | Description |     Mode     |
-|:------------:|-------------|:------------:|
+| :----------: | ----------- | :----------: |
 | `<leader>de` | Eval        | **n**, **v** |
 | `<leader>du` | Dap UI      |    **n**     |
 
 ### timerly
 
 |     Key     | Description  | Mode  |
-|:-----------:|--------------|:-----:|
+| :---------: | ------------ | :---: |
 | `<leader>T` | Toggle Timer | **n** |
 
 ### render-markdown.nvim
 
 |     Key      | Description                | Mode  |
-|:------------:|----------------------------|:-----:|
+| :----------: | -------------------------- | :---: |
 | `<leader>mm` | Toggle RenderMarkdown      | **n** |
 | `<leader>mt` | Generate Table of Contents | **n** |
 
 ### vim-dadbod-ui
 
 |     Key     | Description | Mode  |
-|:-----------:|-------------|:-----:|
+| :---------: | ----------- | :---: |
 | `<leader>D` | Toggle DBUI | **n** |
 
 ### kulala.nvim
 
 |     Key      | Description       |     Mode     |
-|:------------:|-------------------|:------------:|
+| :----------: | ----------------- | :----------: |
 | `<leader>rs` | Send request      | **n**, **v** |
 | `<leader>ra` | Send all requests | **n**, **v** |
 | `<leader>rb` | Open scratchpad   |    **n**     |
@@ -1067,13 +1070,13 @@ Example `.bladeformatterrc.json`:
 ### blade-nav.nvim
 
 | Key | Description                                  | Mode  |
-|:---:|----------------------------------------------|:-----:|
+| :-: | -------------------------------------------- | :---: |
 | gf  | Goto File (Blade template / Blade component) | **n** |
 
 ### windsurf.nvim
 
 |     Key      | Description                  | Mode  |
-|:------------:|------------------------------|:-----:|
+| :----------: | ---------------------------- | :---: |
 |   `<A-[>`    | Codeium previous suggestion  | **i** |
 |   `<A-]>`    | Codeium next suggestion      | **i** |
 |   `<Tab>`    | Codeium accept suggestion    | **i** |
@@ -1083,7 +1086,7 @@ Example `.bladeformatterrc.json`:
 ### copilot.vim, CopilotChat.nvim
 
 |     Key      | Description                  |     Mode     |
-|:------------:|------------------------------|:------------:|
+| :----------: | ---------------------------- | :----------: |
 |   `<A-[>`    | Copilot previous suggestion  |    **i**     |
 |   `<A-]>`    | Copilot next suggestion      |    **i**     |
 |   `<Tab>`    | Copilot accept suggestion    |    **i**     |
