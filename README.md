@@ -188,7 +188,7 @@ To configure cspell, you need to create a [configuration file](https://cspell.or
 
 Example `cspell.json`:
 
-```json
+```jsonc
 // cSpell Settings
 {
     // Version of the setting file.  Always 0.2
@@ -895,14 +895,14 @@ You should install [vscode-php-debug](https://github.com/xdebug/vscode-php-debug
 
 To configure phpstan, you need to create a [configuration file](https://phpstan.org/config-reference) in the root folder of your project.
 
-Example `phpstan.neon`:
+Example `phpstan.dist.neon`:
 
-```yaml
+```neon
 parameters:
- level: 6
- paths:
-  - src
-  - tests
+    level: 6
+    paths:
+        - src
+        - tests
 ```
 
 To configure pint, you need to create a [configuration file](https://laravel.com/docs/12.x/pint#configuring-pint) in the root folder of your project.
