@@ -117,10 +117,10 @@ end"
       end,
     }),'
     js_lint='
-  javascript = { "biomejs" },
-  typescript = { "biomejs" },
-  javascriptreact = { "biomejs" },
-  typescriptreact = { "biomejs" },'
+  javascript = { "biomejs", "cspell" },
+  typescript = { "biomejs", "cspell" },
+  javascriptreact = { "biomejs", "cspell" },
+  typescriptreact = { "biomejs", "cspell" },'
 else
     frontend_plugins=""
     frontend_conform=""
@@ -215,11 +215,14 @@ if [[ "$need_rust" == "y" || "$need_rust" == "Y" ]]; then
     }),'
     rust_treesitter='
     "rust",'
+    rust_lint='
+  rust = { "clippy", "cspell" },'
 else
     rust_plugins=""
     rust_conform=""
     rust_neotest=""
     rust_treesitter=""
+    rust_lint=""
 fi
 }
 
@@ -235,10 +238,13 @@ if [[ "$need_zig" == "y" || "$need_zig" == "Y" ]]; then
     zig_treesitter='
     "zig",
     "ziggy",'
+    zig_lint='
+  zig = { "cspell" },'
 else
     zig_conform=""
     zig_lsp=()
     zig_treesitter=""
+    zig_lint=""
 fi
 }
 
@@ -292,7 +298,7 @@ lspconfig.gopls.setup({
     mkdir -p ~/.config/nvim/queries/gotmpl
     echo "$treesitter_gotmpl_injections" > ~/.config/nvim/queries/gotmpl/injections.scm
     go_lint='
-  go = { "golangcilint" },'
+  go = { "golangcilint", "cspell" },'
     go_snippets='
       {
         "language": ["go"],
@@ -562,7 +568,7 @@ if [[ "$need_php" == "y" || "$need_php" == "Y" ]]; then
 EOM
     echo "$treesitter_html_injections" > ~/.config/nvim/queries/html/injections.scm
     php_lint='
-  php = { "phpstan" },'
+  php = { "phpstan", "cspell" },'
     php_dap='
 
 dap.configurations.php = {
@@ -820,7 +826,7 @@ generate_lint() {
 config_lint_file="local lint = require(\"lint\")
 
 lint.linters_by_ft = {
-  ${others_lint}${js_lint}${go_lint}${php_lint}
+  ${others_lint}${js_lint}${rust_lint}${zig_lint}${go_lint}${php_lint}
 }
 
 vim.api.nvim_create_autocmd({ \"BufWritePost\" }, {

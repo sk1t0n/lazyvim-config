@@ -25,6 +25,8 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
     - [HTML](#html)
     - [JavaScript, TypeScript](#javascript-typescript)
   - [Others dependencies](#others-dependencies)
+    - [Spell checker for code](#spell-checker-for-code)
+    - [Spell checker for prose](#spell-checker-for-prose)
     - [YAML](#yaml)
     - [Markdown](#markdown)
     - [SQL](#sql)
@@ -171,6 +173,57 @@ To configure biome, you need to create a [configuration file](https://biomejs.de
 ```
 
 ### Others dependencies
+
+#### Spell checker for code
+
+You should install: [cspell](https://cspell.org/docs/installation).
+
+**Unix (Linux/Mac)**:
+
+```bash
+npm install -g cspell@latest
+```
+
+To configure cspell, you need to create a [configuration file](https://cspell.org/docs/Configuration) in the root folder of your project.
+
+Example `cspell.json`:
+
+```json
+// cSpell Settings
+{
+    // Version of the setting file.  Always 0.2
+    "version": "0.2",
+    // language - current active spelling language
+    "language": "en",
+    // words - list of words to be always considered correct
+    "words": [
+        "mkdirp",
+        "tsmerge",
+        "githubusercontent",
+        "streetsidesoftware",
+        "vsmarketplacebadge",
+        "visualstudio"
+    ],
+    // flagWords - list of words to be always considered incorrect
+    // This is useful for offensive words and common spelling errors.
+    // For example "hte" should be "the"
+    "flagWords": [
+        "hte"
+    ]
+}
+```
+
+#### Spell checker for prose
+
+To configure harper, you need to create a [user dictionary](https://writewithharper.com/docs/integrations/language-server#User-Dictionary).
+
+Example `~/.config/harper-ls/dictionary.txt` (Linux):
+
+```txt
+vscode
+nvim
+Neovim
+```
 
 #### YAML
 
