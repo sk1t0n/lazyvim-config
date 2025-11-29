@@ -195,7 +195,7 @@ formatter:
 
 #### Markdown
 
-You should install: [doctoc](https://github.com/thlorenz/doctoc), [mdformat](https://github.com/hukkin/mdformat), [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2), [vale](https://vale.sh).
+You should install: [doctoc](https://github.com/thlorenz/doctoc), [mdformat](https://github.com/hukkin/mdformat), [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2).
 
 **Linux (Ubuntu/Debian)**:
 
@@ -206,7 +206,6 @@ pipx install mdformat
 pipx inject mdformat mdformat-gfm mdformat-frontmatter mdformat-footnote mdformat-gfm-alerts
 pipx inject mdformat mdformat-toc
 npm install markdownlint-cli2 --global
-sudo snap install vale # for Ubuntu
 ```
 
 **Mac**:
@@ -218,7 +217,6 @@ pipx install mdformat
 pipx inject mdformat mdformat-gfm mdformat-frontmatter mdformat-footnote mdformat-gfm-alerts
 pipx inject mdformat mdformat-toc
 npm install markdownlint-cli2 --global
-brew install vale
 ```
 
 To configure mdformat, you need to create a [configuration file](https://mdformat.readthedocs.io/en/stable/users/configuration_file.html) in the root folder of your project.
@@ -261,21 +259,6 @@ MD026: false  # Disable "Trailing punctuation in headings" rule
 
 MD033: false  # Allow inline HTML (e.g., <div>, <br>) inside Markdown files
 ```
-
-Before using vale, you must
-
-create a [configuration file](https://vale.sh/docs/vale-ini), for example `~/.config/vale/.vale.ini`
-
-```ini
-StylesPath = .
-MinAlertLevel = suggestion
-Packages = alex
-
-[*.{md}]
-BasedOnStyles = Vale, alex
-```
-
-and run `vale sync` to download and install packages.
 
 #### SQL
 

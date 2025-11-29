@@ -180,7 +180,7 @@ if [[ "$need_others" == "y" || "$need_others" == "Y" ]]; then
     "markdown",
     "markdown_inline",
     "sql",'
-    others_lint='markdown = { "markdownlint-cli2", "vale" },
+    others_lint='markdown = { "markdownlint-cli2" },
   sql = { "sqruff" },'
 else
     others_plugins=""
