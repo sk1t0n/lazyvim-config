@@ -38,6 +38,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 - [Keymaps](#keymaps)
   - [General](#general)
   - [LSP](#lsp)
+  - [trouble.nvim](#troublenvim)
   - [refactoring.nvim](#refactoringnvim)
   - [treesj](#treesj)
   - [bufferline.nvim](#bufferlinenvim)
@@ -1012,6 +1013,15 @@ Example `.bladeformatterrc.json`:
 | `<leader>ca` | Code Action         | **n**, **v** |
 | `<leader>cd` | Line Diagnostics    |    **n**     |
 | `<leader>cr` | Rename              |    **n**     |
+
+### trouble.nvim
+
+|     Key      | Description                | Mode  |
+| :----------: | -------------------------- | :---: |
+| `<leader>cs` | Symbols                    | **n** |
+| `<leader>cS` | LSP references/definitions | **n** |
+| `<leader>xx` | Diagnostics                | **n** |
+| `<leader>xt` | TODO/FIX                   | **n** |
 
 ### refactoring.nvim
 
