@@ -632,6 +632,12 @@ fi
 generate_plugins() {
 plugins_init_file_begin='return {
   {
+    "sk1t0n/vim-top-keymaps.nvim",
+    config = function()
+      require("vim-top-keymaps").setup()
+    end,
+  },
+  {
     "mason-org/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
