@@ -986,7 +986,7 @@ Example `.bladeformatterrc.json`:
 
 ## Keymaps
 
-[LazyVim Keymaps](https://www.lazyvim.org/keymaps)
+- [LazyVim Keymaps](https://www.lazyvim.org/keymaps)
 
 ### vim-top-keymaps.nvim
 
@@ -1012,11 +1012,11 @@ Example `.bladeformatterrc.json`:
 
 |     Key      | Description         |     Mode     |
 | :----------: | ------------------- | :----------: |
-|      K       | Hover               |    **n**     |
-|      gK      | Signature Help      |    **n**     |
-|      gD      | Goto Declaration    |    **n**     |
-|      gd      | Goto Definition     |    **n**     |
-|      gi      | Goto Implementation |    **n**     |
+|     `K`      | Hover               |    **n**     |
+|     `gK`     | Signature Help      |    **n**     |
+|     `gD`     | Goto Declaration    |    **n**     |
+|     `gd`     | Goto Definition     |    **n**     |
+|     `gi`     | Goto Implementation |    **n**     |
 | `<leader>ca` | Code Action         | **n**, **v** |
 | `<leader>cd` | Line Diagnostics    |    **n**     |
 | `<leader>cr` | Rename              |    **n**     |
@@ -1122,9 +1122,9 @@ Example `.bladeformatterrc.json`:
 
 ### blade-nav.nvim
 
-| Key | Description                                  | Mode  |
-| :-: | -------------------------------------------- | :---: |
-| gf  | Goto File (Blade template / Blade component) | **n** |
+| Key  | Description                                  | Mode  |
+| :--: | -------------------------------------------- | :---: |
+| `gf` | Goto File (Blade template / Blade component) | **n** |
 
 ### windsurf.nvim
 
