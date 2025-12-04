@@ -638,6 +638,26 @@ plugins_init_file_begin='return {
     end,
   },
   {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      picker = {
+        sources = {
+          explorer = {
+            focus = "input",
+            auto_close = true,
+          },
+        },
+      },
+      statuscolumn = { enabled = true },
+      -- requirements: WezTerm, ImageMagick
+      -- run `:checkhealth snacks` to see if everything is set up correctly
+      image = { enabled = true },
+    },
+  },
+  {
     "mason-org/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
@@ -808,7 +828,8 @@ echo "$config_lspconfig_file" > ~/.config/nvim/lua/config/plugins/lspconfig.lua
 generate_treesitter() {
 config_treesitter_file="require(\"nvim-treesitter.configs\").setup({
   ensure_installed = {
-    \"diff\",${frontend_treesitter}${others_treesitter}${rust_treesitter}${zig_treesitter}${go_treesitter}${php_treesitter}
+    \"diff\",
+    \"regex\",${frontend_treesitter}${others_treesitter}${rust_treesitter}${zig_treesitter}${go_treesitter}${php_treesitter}
   },
   highlight = {
     enable = true,
