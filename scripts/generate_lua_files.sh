@@ -1111,6 +1111,20 @@ opt.tabstop = 4'
 echo "$options_file" > ~/.config/nvim/lua/config/options.lua
 }
 
+generate_autocmds() {
+autocmds_file='vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    -- Close explorer on startup after a timeout
+    vim.defer_fn(function()
+      local esc_key = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+      vim.api.nvim_feedkeys(esc_key, "m", true)
+      vim.api.nvim_feedkeys(esc_key, "m", true)
+    end, 500)
+  end,
+})'
+echo "$autocmds_file" > ~/.config/nvim/lua/config/autocmds.lua
+}
+
 main() {
 mkdir ~/.config/nvim/lua/config/plugins
 mkdir ~/.config/nvim/snippets
@@ -1133,6 +1147,7 @@ generate_snippets
 generate_dap
 generate_keymaps
 generate_options
+generate_autocmds
 }
 
 main
