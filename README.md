@@ -895,7 +895,7 @@ You should install [vscode-php-debug](https://github.com/xdebug/vscode-php-debug
    xdebug.start_with_request = yes
    ```
 
-To configure phpstan, you need to create a [configuration file](https://phpstan.org/config-reference) in the root folder of your project.
+Phpstan must be installed as a dev dependency: `composer require --dev phpstan/phpstan`. To configure phpstan, you need to create a [configuration file](https://phpstan.org/config-reference) in the root folder of your project.
 
 Example `phpstan.dist.neon`:
 
@@ -907,7 +907,7 @@ parameters:
         - tests
 ```
 
-To configure pint, you need to create a [configuration file](https://laravel.com/docs/12.x/pint#configuring-pint) in the root folder of your project.
+Pint must be installed as a dev dependency: `composer require laravel/pint --dev`. To configure pint, you need to create a [configuration file](https://laravel.com/docs/12.x/pint#configuring-pint) in the root folder of your project.
 
 Example `pint.json`:
 
@@ -917,7 +917,7 @@ Example `pint.json`:
 }
 ```
 
-Instead of pint, you can configure php-cs-fixer. To do this, you need to create a [configuration file](https://cs.symfony.com/doc/config.html) in the root folder of your project.
+Instead of pint, you can configure php-cs-fixer. It must be installed as a dev dependency: `composer require --dev friendsofphp/php-cs-fixer`. To configure php-cs-fixer, you need to create a [configuration file](https://cs.symfony.com/doc/config.html) in the root folder of your project.
 
 Example `.php-cs-fixer.dist.php`:
 
