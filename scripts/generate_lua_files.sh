@@ -646,7 +646,6 @@ plugins_init_file_begin='return {
       picker = {
         sources = {
           explorer = {
-            focus = "input",
             auto_close = true,
           },
         },
