@@ -404,7 +404,7 @@ if [[ "$need_php" == "y" || "$need_php" == "Y" ]]; then
     php = { "pint", "php_cs_fixer", stop_after_first = true },
     blade = { "blade-formatter" },'
     php_lsp=(
-        '"intelephense",'
+        '"phpactor",'
     )
     php_neotest='
     require("neotest-pest"),'
