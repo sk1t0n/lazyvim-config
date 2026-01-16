@@ -596,6 +596,32 @@ else
 fi
 }
 
+generate_java() {
+read -p "Install Java plugins? (y/n, default: n): " -i "n" -e need_java
+if [[ "$need_java" == "y" || "$need_java" == "Y" ]]; then
+    java_plugins='
+  {
+    "nvim-java/nvim-java",
+    config = function()
+      require("java").setup({
+        jdk = {
+          auto_install = false,
+        },
+      })
+      vim.lsp.enable("jdtls")
+    end,
+  }',
+    java_conform='
+    java = { "google-java-format" },'
+    java_treesitter='
+    "java",'
+else
+    java_plugins=""
+    java_conform=""
+    java_treesitter=""
+fi
+}
+
 generate_ai() {
 read -p "Install AI plugin? (y/n, default: n): " -i "n" -e need_ai
 if [[ "$need_ai" == "y" || "$need_ai" == "Y" ]]; then
@@ -803,7 +829,7 @@ read -r -d '' plugins_init_file << 'EOM'
     },
   },
 EOM
-plugins_init_file+="${frontend_plugins}${others_plugins}${rust_plugins}${go_plugins}${php_plugins}${ai_plugins}
+plugins_init_file+="${frontend_plugins}${others_plugins}${rust_plugins}${go_plugins}${php_plugins}${java_plugins}${ai_plugins}
 }"
 echo "${plugins_init_file_begin}${plugins_init_file}" > ~/.config/nvim/lua/plugins/init.lua
 }
@@ -811,7 +837,7 @@ echo "${plugins_init_file_begin}${plugins_init_file}" > ~/.config/nvim/lua/plugi
 generate_conform() {
 config_conform_file="return {
   formatters_by_ft = {
-    ${frontend_conform}${others_conform}${rust_conform}${zig_conform}${go_conform}${php_conform}
+    ${frontend_conform}${others_conform}${rust_conform}${zig_conform}${go_conform}${php_conform}${java_conform}
   },
 }"
 echo "$config_conform_file" > ~/.config/nvim/lua/config/plugins/conform.lua
@@ -828,7 +854,7 @@ generate_treesitter() {
 config_treesitter_file="require(\"nvim-treesitter.configs\").setup({
   ensure_installed = {
     \"diff\",
-    \"regex\",${frontend_treesitter}${others_treesitter}${rust_treesitter}${zig_treesitter}${go_treesitter}${php_treesitter}
+    \"regex\",${frontend_treesitter}${others_treesitter}${rust_treesitter}${zig_treesitter}${go_treesitter}${php_treesitter}${java_treesitter}
   },
   highlight = {
     enable = true,
@@ -1134,6 +1160,7 @@ generate_rust
 generate_zig
 generate_go
 generate_php
+generate_java
 generate_ai
 
 generate_plugins

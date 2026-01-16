@@ -1,6 +1,6 @@
 # lazyvim_config
 
-Scripts for installing LazyVim and generating Lua files. Users can select the programming languages ​​for which Lua files will be generated. This allows you to install and configure only plugins for the languages ​​you need. Supported programming, markup, and stylesheet languages: HTML with Emmet, CSS with Tailwind, JSON, YAML, Markdown, SQL, HTTP, JavaScript/TypeScript with React, Rust, Zig, Go, PHP with Laravel.
+Scripts for installing LazyVim and generating Lua files. Users can select the programming languages ​​for which Lua files will be generated. This allows you to install and configure only plugins for the languages ​​you need. Supported programming, markup, and stylesheet languages: HTML with Emmet, CSS with Tailwind, JSON, YAML, Markdown, SQL, HTTP, JavaScript/TypeScript with React, Rust, Zig, Go, PHP with Laravel, Java with Spring.
 
 **Plugins that can install and setup**:
 
@@ -11,6 +11,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 5. Rust: [rustaceanvim](https://github.com/mrcjkb/rustaceanvim), [crates.nvim](https://github.com/saecki/crates.nvim)
 6. Go: [neotest-golang](https://github.com/fredrikaverpil/neotest-golang), [nvim-dap-go](https://github.com/leoluz/nvim-dap-go)
 7. PHP: [neotest-pest](https://github.com/V13Axel/neotest-pest), [blade-nav.nvim](https://github.com/RicardoRamirezR/blade-nav.nvim)
+8. Java: [nvim-java](https://github.com/nvim-java/nvim-java)
 
 <details>
 <summary>Table of Contents</summary>
@@ -35,6 +36,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
   - [Zig dependencies](#zig-dependencies)
   - [Go dependencies](#go-dependencies)
   - [PHP dependencies](#php-dependencies)
+  - [Java dependencies](#java-dependencies)
 - [Keymaps](#keymaps)
   - [vim-top-keymaps.nvim](#vim-top-keymapsnvim)
   - [General](#general)
@@ -983,6 +985,10 @@ Example `.bladeformatterrc.json`:
   "phpVersion": "8.4"
 }
 ```
+
+### Java dependencies
+
+You should install: [google-java-format](https://github.com/google/google-java-format/releases).
 
 ## Keymaps
 
