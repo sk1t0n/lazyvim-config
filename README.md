@@ -21,7 +21,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 - [Delete configuration](#delete-configuration)
 - [Regenerate lua files if necessary](#regenerate-lua-files-if-necessary)
 - [Install dependencies for plugins](#install-dependencies-for-plugins)
-- [Install dependencies for selected languages](#install-dependencies-for-selected-languages)
+- [Install and configure dependencies for the selected languages](#install-and-configure-dependencies-for-the-selected-languages)
   - [Frontend dependencies](#frontend-dependencies)
     - [HTML](#html)
     - [JavaScript, TypeScript](#javascript-typescript)
@@ -125,7 +125,7 @@ brew update
 brew install lazygit ripgrep fd-find fzf
 ```
 
-## Install dependencies for selected languages
+## Install and configure dependencies for the selected languages
 
 ### Frontend dependencies
 
@@ -134,11 +134,6 @@ brew install lazygit ripgrep fd-find fzf
 To enable formatting, you need to set the `html.formatter.enabled` parameter to `true`. [See the example](#example_biome_config) for details.
 
 #### JavaScript, TypeScript
-
-You should install [vscode-js-debug](https://github.com/microsoft/vscode-js-debug).
-
-1. Open nvim
-2. Run the command `:MasonInstall js-debug-adapter`
 
 To configure biome, you need to create a [configuration file](https://biomejs.dev/reference/configuration/) in the root folder of your project.
 
@@ -878,24 +873,16 @@ linters:
 
 ### PHP dependencies
 
-You should install [vscode-php-debug](https://github.com/xdebug/vscode-php-debug).
+You should install and configure [Xdebug](https://xdebug.org/docs/install).
 
-1. Open nvim
+A simple `xdebug.ini` file for Xdebug 3:
 
-2. Run the command `:MasonInstall php-debug-adapter`
+```ini
+zend_extension=xdebug.so
 
-3. Install [Xdebug](https://xdebug.org/docs/install)
-
-4. [Configure PHP to use Xdebug](https://xdebug.org/docs/install#configure-php)
-
-   Simple `xdebug.ini`:
-
-   ```ini
-   zend_extension=xdebug.so
-
-   xdebug.mode = debug
-   xdebug.start_with_request = yes
-   ```
+xdebug.mode = debug
+xdebug.start_with_request = yes
+```
 
 Phpstan must be installed as a dev dependency: `composer require --dev phpstan/phpstan`. To configure phpstan, you need to create a [configuration file](https://phpstan.org/config-reference) in the root folder of your project.
 

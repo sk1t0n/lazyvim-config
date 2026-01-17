@@ -121,6 +121,7 @@ end"
   typescript = { "biomejs", "cspell" },
   javascriptreact = { "biomejs", "cspell" },
   typescriptreact = { "biomejs", "cspell" },'
+    js_mason_packages='"js-debug-adapter",'
 else
     frontend_plugins=""
     frontend_conform=""
@@ -129,6 +130,7 @@ else
     frontend_dap=""
     js_neotest=""
     js_lint=""
+    js_mason_packages=""
 fi
 }
 
@@ -585,6 +587,8 @@ dap.adapters.xdebug = {
   args = { '
     php_dap+="\"$HOME/.local/share/nvim/mason/packages/php-debug-adapter/extension/out/phpDebug.js\" },
 }"
+php_mason_packages='
+      "php-debug-adapter",'
 else
     php_plugins=""
     php_conform=""
@@ -593,6 +597,7 @@ else
     php_treesitter=""
     php_lint=""
     php_dap=""
+    php_mason_packages=""
 fi
 }
 
@@ -829,7 +834,14 @@ read -r -d '' plugins_init_file << 'EOM'
     },
   },
 EOM
-plugins_init_file+="${frontend_plugins}${others_plugins}${rust_plugins}${go_plugins}${php_plugins}${java_plugins}${ai_plugins}
+mason_packages="
+  {
+    \"mason-org/mason.nvim\",
+    opts = { ensure_installed = {
+      ${js_mason_packages}${php_mason_packages}
+    } },
+  },"
+plugins_init_file+="${frontend_plugins}${others_plugins}${rust_plugins}${go_plugins}${php_plugins}${java_plugins}${ai_plugins}${mason_packages}
 }"
 echo "${plugins_init_file_begin}${plugins_init_file}" > ~/.config/nvim/lua/plugins/init.lua
 }
