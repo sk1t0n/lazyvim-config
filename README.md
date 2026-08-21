@@ -141,6 +141,7 @@ To configure biome, you need to create a [configuration file](https://biomejs.de
 
 ```json
 {
+	"$schema": "https://biomejs.dev/schemas/2.3.5/schema.json",
 	"linter": {
 		"enabled": true,
 		"rules": {
