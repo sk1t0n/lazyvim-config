@@ -385,7 +385,15 @@ if [[ "$need_php" == "y" || "$need_php" == "Y" ]]; then
   {
     "ricardoramirezr/blade-nav.nvim",
     ft = { "blade", "php" },
-    dependencies = { "saghen/blink.cmp" },
+    dependencies = {
+      {
+        "saghen/blink.cmp",
+        dependencies = { "saghen/blink.lib" },
+        opts = {
+          fuzzy = { implementation = "lua" },
+        },
+      },
+    },
     config = function()
       require("blink.cmp").setup({
         sources = {
