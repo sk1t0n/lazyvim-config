@@ -79,6 +79,7 @@ Scripts for installing LazyVim and generating Lua files. Users can select the pr
 **Unix (Linux/Mac)**:
 
 ```bash
+git clone --depth=1 https://github.com/sk1t0n/lazyvim-config.git && lazyvim-config
 make install
 # or
 make
